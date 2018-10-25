@@ -24,7 +24,7 @@ public class ThreadsController extends Thread {
 		Tuple headPos = new Tuple(headSnakePos.getX(),headSnakePos.getY());
 		positions.add(headPos);
 		
-		foodPosition= new Tuple(Window.height-1,Window.width-1);
+		foodPosition= getValAleaNotInSnake();
 		spawnFood(foodPosition);
 
 	 }
@@ -62,6 +62,11 @@ public class ThreadsController extends Thread {
 				stopTheGame();
 			 }
 		 }
+
+		 int hy = headSnakePos.getX(), hx = headSnakePos.getY();
+		 if ( Squares.get(hx).get(hy).obj > 1 ) {
+		 	stopTheGame();
+		 }
 		 
 		 boolean eatingFood = posCritique.getX()==foodPosition.y && posCritique.getY()==foodPosition.x;
 		 if(eatingFood){
@@ -83,24 +88,20 @@ public class ThreadsController extends Thread {
 	 
 	 //Put food in a position and displays it
 	 private void spawnFood(Tuple foodPositionIn){
-		 	Squares.get(foodPositionIn.x).get(foodPositionIn.y).lightMeUp(5,1);
+		 	Squares.get(foodPositionIn.x).get(foodPositionIn.y).lightMeUp(5,1,false);
 	 }
 	 
 	 //return a position not occupied by the snake
 	 private Tuple getValAleaNotInSnake(){
-		 Tuple p ;
-		 int ranX= 0 + (int)(Math.random()*19); 
-		 int ranY= 0 + (int)(Math.random()*19); 
-		 p=new Tuple(ranX,ranY);
-		 for(int i = 0;i<=positions.size()-1;i++){
-			 if(p.getY()==positions.get(i).getX() && p.getX()==positions.get(i).getY()){
-				 ranX= 0 + (int)(Math.random()*19); 
-				 ranY= 0 + (int)(Math.random()*19); 
-				 p=new Tuple(ranX,ranY);
-				 i=0;
-			 }
-		 }
-		 return p;
+		 ArrayList<Tuple> freeSquares = new ArrayList<Tuple>();
+		 for (int i = 0; i < Squares.size(); i++)
+		 	for (int j = 0; j < Squares.get(i).size(); j++) 
+		 		if ( Squares.get(i).get(j).obj == 0 ) 
+		 			freeSquares.add(new Tuple(i,j));
+		
+
+		 int ranVal= 0 + (int)(Math.random()*(freeSquares.size()-1)); 
+		 return freeSquares.get(ranVal);
 	 }
 	 
 	 //Moves the head of the snake and refreshes the positions in the arraylist
@@ -138,25 +139,25 @@ public class ThreadsController extends Thread {
 		 System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
 	 }
 
-	 private void turnOn(Tuple u,Tuple v) {
+	 private void turnOn(Tuple u,Tuple v,boolean isHead) {
 	 	 int uy = u.getX(), ux = u.getY();
 	 	 int vy = v.getX(), vx = v.getY();
 
 		 System.out.printf("%d %d\n",ux,uy);
-		 Squares.get(ux).get(uy).lightMeUp(5,2);
+		 Squares.get(ux).get(uy).lightMeUp(5,2,isHead);
 
 		 if ( ux == vx + 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(1,2);
-		 	Squares.get(vx).get(vy).lightMeUp(2,2);
+		 	Squares.get(ux).get(uy).lightMeUp(1,2,false);
+		 	Squares.get(vx).get(vy).lightMeUp(2,2,false);
 		 } else if ( ux == vx - 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(2,2);
-		 	Squares.get(vx).get(vy).lightMeUp(1,2);
+		 	Squares.get(ux).get(uy).lightMeUp(2,2,false);
+		 	Squares.get(vx).get(vy).lightMeUp(1,2,false);
 		 } else if ( uy == vy + 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(3,2);
-		 	Squares.get(vx).get(vy).lightMeUp(4,2);
+		 	Squares.get(ux).get(uy).lightMeUp(3,2,false);
+		 	Squares.get(vx).get(vy).lightMeUp(4,2,false);
 		 } else if ( uy == vy - 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(4,2);
-		 	Squares.get(vx).get(vy).lightMeUp(3,2);
+		 	Squares.get(ux).get(uy).lightMeUp(4,2,false);
+		 	Squares.get(vx).get(vy).lightMeUp(3,2,false);
 		 }
 	 }
 	 
@@ -164,8 +165,12 @@ public class ThreadsController extends Thread {
 	 private void moveExterne(){
 	 	Tuple prev = new Tuple(-10,-10);
 
-		 for(Tuple t : positions){
-			 turnOn(t,prev);
+		 for(int i=0; i < positions.size(); i++) {
+		 	 Tuple t = positions.get(i);
+		 	 boolean isHead = false;
+		 	 if ( i == positions.size()-1 ) 
+		 	 	isHead = true;
+			 turnOn(t,prev,isHead);
 			 prev = t;
 		 }
 	 }
@@ -177,7 +182,7 @@ public class ThreadsController extends Thread {
 		 for(int i = positions.size()-1;i>=0;i--){
 			 if(cmpt==0){
 				 Tuple t = positions.get(i);
-				 Squares.get(t.y).get(t.x).lightMeUp(5,0);
+				 Squares.get(t.y).get(t.x).lightMeUp(5,0,false);
 			 }
 			 else{
 				 cmpt--;

@@ -13,8 +13,11 @@ public class DataOfSquare extends JPanel {
 	public ArrayList<ArrayList<SubSquarePanel>> GridChild;
 	private int height = 5;
 	private int width = 5;
+	public int obj = 0;
 
-	public DataOfSquare(){
+	//obj : 0: space ; 1: food; 2: snake; 3: border
+	public DataOfSquare(int object){
+		obj = object;
 
 		GridChild = new ArrayList<ArrayList<SubSquarePanel>>();
 		ArrayList<SubSquarePanel> data;
@@ -23,7 +26,7 @@ public class DataOfSquare extends JPanel {
 		for(int i=0;i<width;i++){
 			data= new ArrayList<SubSquarePanel>();
 			for(int j=0;j<height;j++){
-				SubSquarePanel c = new SubSquarePanel(0);
+				SubSquarePanel c = new SubSquarePanel(obj);
 				data.add(c);
 			}
 			GridChild.add(data);
@@ -38,11 +41,11 @@ public class DataOfSquare extends JPanel {
 				add(GridChild.get(i).get(j));
 			}
 		}
+
 	}
 
-
-
-	public void lightMeUp(int pos,int value){
+	public void lightMeUp(int pos,int value,boolean isHead){
+		this.obj = value;
 		switch (pos) {
 			case 1:
 				for (int i = 1; i < width-1; i++) 
@@ -64,6 +67,8 @@ public class DataOfSquare extends JPanel {
 				for (int i = 1; i < width-1; i++) 
 					for (int j = 1; j < height-1; j++)
 						this.GridChild.get(i).get(j).ChangeColor(value);
+				if ( isHead )
+					this.GridChild.get(2).get(2).ChangeColor(4);
 				break;
 		}
 

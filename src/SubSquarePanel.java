@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class SubSquarePanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;	
-	ArrayList<Color> C =new ArrayList<Color>(Arrays.asList(Color.white, Color.BLUE, Color.darkGray));
+	ArrayList<Color> C =new ArrayList<Color>(Arrays.asList(Color.white, Color.BLUE, Color.darkGray,Color.orange,Color.red));
 	public static int color = 0;
 
 	public SubSquarePanel(int d){

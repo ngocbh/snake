@@ -23,7 +23,8 @@ class Window extends JFrame{
 		for(int i=0;i<width;i++){
 			data= new ArrayList<DataOfSquare>();
 			for(int j=0;j<height;j++){
-				DataOfSquare c = new DataOfSquare();
+				int color = (j==0||j==height-1||i==0||i==width-1)?3:0;
+				DataOfSquare c = new DataOfSquare(color);
 				data.add(c);
 			}
 			Grid.add(data);
@@ -40,7 +41,7 @@ class Window extends JFrame{
 		}
 
 		// initial position of the snake
-		Tuple position = new Tuple(10,10);
+		Tuple position = new Tuple((int)(width/2),(int)(height/2));
 		// passing this value to the controller
 		ThreadsController c = new ThreadsController(position);
 
