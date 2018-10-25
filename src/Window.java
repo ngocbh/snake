@@ -2,7 +2,7 @@ import java.awt.GridLayout;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-
+import java.awt.Color;
 import javax.swing.JFrame;
 
 
@@ -31,7 +31,7 @@ class Window extends JFrame{
 		
 		// Setting up the layout of the panel
 		getContentPane().setLayout(new GridLayout(this.width,this.height));
-		
+		setBackground(Color.white);
 		// Start & pauses all threads, then adds every square of each thread to the panel
 		for(int i=0;i<width;i++){
 			for(int j=0;j<height;j++){

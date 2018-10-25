@@ -17,7 +17,7 @@ public class SubSquarePanel extends JPanel{
 	public void ChangeColor(int d){
 		color = d;
 		this.setBackground(C.get(color));
-		this.repaint();
+		// this.repaint();
 	}
 	
 }
