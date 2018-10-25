@@ -30,7 +30,7 @@ class Window extends JFrame{
 		}
 		
 		// Setting up the layout of the panel
-		getContentPane().setLayout(new GridLayout(this.width,this.height));
+		getContentPane().setLayout(new GridLayout(this.width,this.height,0,0));
 		setBackground(Color.white);
 		// Start & pauses all threads, then adds every square of each thread to the panel
 		for(int i=0;i<width;i++){
@@ -39,9 +39,6 @@ class Window extends JFrame{
 			}
 		}
 
-		// Grid.get(5).get(3).lightMeUp(5,0);
-
-		// if (true) return;
 		// initial position of the snake
 		Tuple position = new Tuple(10,10);
 		// passing this value to the controller

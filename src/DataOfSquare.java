@@ -30,7 +30,7 @@ public class DataOfSquare extends JPanel {
 		}
 
 		// Setting up the layout of the panel
-		setLayout(new GridLayout(this.width,this.height));
+		setLayout(new GridLayout(this.width,this.height,0,0));
 		setBackground(Color.white);
 		// Start & pauses all threads, then adds every square of each thread to the panel
 		for(int i=0;i<width;i++){
@@ -65,6 +65,17 @@ public class DataOfSquare extends JPanel {
 					for (int j = 1; j < height-1; j++)
 						this.GridChild.get(i).get(j).ChangeColor(value);
 				break;
+		}
+
+		if ( value != 2 ) {
+			for (int i = 1; i < width-1; i++) {
+				this.GridChild.get(0).get(i).ChangeColor(0); 
+				this.GridChild.get(height-1).get(i).ChangeColor(0);
+			}
+			for (int i = 1; i < height-1; i++) {
+				this.GridChild.get(i).get(0).ChangeColor(0);
+				this.GridChild.get(i).get(width-1).ChangeColor(0);
+			}
 		}
 		this.repaint();
 	}

@@ -137,15 +137,36 @@ public class ThreadsController extends Thread {
 		 }
 		 System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
 	 }
+
+	 private void turnOn(Tuple u,Tuple v) {
+	 	 int uy = u.getX(), ux = u.getY();
+	 	 int vy = v.getX(), vx = v.getY();
+
+		 System.out.printf("%d %d\n",ux,uy);
+		 Squares.get(ux).get(uy).lightMeUp(5,2);
+
+		 if ( ux == vx + 1 ) {
+		 	Squares.get(ux).get(uy).lightMeUp(1,2);
+		 	Squares.get(vx).get(vy).lightMeUp(2,2);
+		 } else if ( ux == vx - 1 ) {
+		 	Squares.get(ux).get(uy).lightMeUp(2,2);
+		 	Squares.get(vx).get(vy).lightMeUp(1,2);
+		 } else if ( uy == vy + 1 ) {
+		 	Squares.get(ux).get(uy).lightMeUp(3,2);
+		 	Squares.get(vx).get(vy).lightMeUp(4,2);
+		 } else if ( uy == vy - 1 ) {
+		 	Squares.get(ux).get(uy).lightMeUp(4,2);
+		 	Squares.get(vx).get(vy).lightMeUp(3,2);
+		 }
+	 }
 	 
 	 //Refresh the squares that needs to be 
 	 private void moveExterne(){
+	 	Tuple prev = new Tuple(-10,-10);
+
 		 for(Tuple t : positions){
-			 int y = t.getX();
-			 int x = t.getY();
-			 System.out.printf("%d %d\n",x,y);
-			 Squares.get(x).get(y).lightMeUp(5,2);
-			 
+			 turnOn(t,prev);
+			 prev = t;
 		 }
 	 }
 	 
