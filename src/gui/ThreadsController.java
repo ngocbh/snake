@@ -1,22 +1,27 @@
+package com.gui;
+
 import java.util.ArrayList;
 
+import com.ai.AutoPlay;
+import com.gui.*;
 
 //Controls all the game logic .. most important class in this project.
 public class ThreadsController extends Thread {
 	 ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
 	 Tuple headSnakePos;
-	 int sizeSnake=3;
-	 long speed = 200;
+	 int sizeSnake=1;
+	 long speed = 20;
 	 public static int directionSnake ;
-
+	 public static boolean autoPlay = true;
 	 ArrayList<Tuple> positions = new ArrayList<Tuple>();
 	 Tuple foodPosition;
-	 
+	 AutoPlay brain;
+
 	 //Constructor of ControlleurThread 
 	 ThreadsController(Tuple positionDepart){
 		//Get all the threads
 		Squares=Window.Grid;
-		
+		brain = new AutoPlay(Window.convertSimpleGrid(Window.Grid));
 		headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
 		directionSnake = 1;
 
@@ -32,15 +37,22 @@ public class ThreadsController extends Thread {
 	 //Important part :
 	 public void run() {
 		 while(true){
-		 	System.out.println("-----Move Interne---------");
+		 	System.out.println("-----ROUND---------");
+		 	// System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
+		 	// System.out.println("-----AI-Snake---------");
+		 	
+		 	// System.out.println("-----Move Interne---------");
 			moveInterne(directionSnake);
-			System.out.println("-----Check Collision---------");
+			// System.out.println("-----Check Collision---------");
 			checkCollision();
-			System.out.println("-----Move Externe---------");
+			// System.out.println("-----Move Externe---------");
 			moveExterne();
-			System.out.println("-----Delete Tail---------");
+			// System.out.println("-----Delete Tail---------");
 			deleteTail();
 			pauser();
+			
+			if ( autoPlay ) autoPlaySnake();
+			// return;
 		 }
 	 }
 	 
@@ -56,12 +68,6 @@ public class ThreadsController extends Thread {
 	 //Checking if the snake bites itself or is eating
 	 private void checkCollision() {
 		 Tuple posCritique = positions.get(positions.size()-1);
-		 for(int i = 0;i<=positions.size()-2;i++){
-			 boolean biteItself = posCritique.getX()==positions.get(i).getX() && posCritique.getY()==positions.get(i).getY();
-			 if(biteItself){
-				stopTheGame();
-			 }
-		 }
 
 		 int hy = headSnakePos.getX(), hx = headSnakePos.getY();
 		 if ( Squares.get(hx).get(hy).obj > 1 ) {
@@ -136,14 +142,14 @@ public class ThreadsController extends Thread {
 				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
 		 		 break;
 		 }
-		 System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
+		 // System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
 	 }
 
 	 private void turnOn(Tuple u,Tuple v,boolean isHead) {
 	 	 int uy = u.getX(), ux = u.getY();
 	 	 int vy = v.getX(), vx = v.getY();
 
-		 System.out.printf("%d %d\n",ux,uy);
+		 // System.out.printf("%d %d\n",ux,uy);
 		 Squares.get(ux).get(uy).lightMeUp(5,2,isHead);
 
 		 if ( ux == vx + 1 ) {
@@ -191,12 +197,23 @@ public class ThreadsController extends Thread {
 		 cmpt = sizeSnake;
 		 for(int i = positions.size()-1;i>=0;i--){
 			 if(cmpt==0){
-			 	System.out.printf("%d %d\n",positions.get(i).getX() , positions.get(i).getY());
+			 	// System.out.printf("%d %d\n",positions.get(i).getX() , positions.get(i).getY());
 				 positions.remove(i);
 			 }
 			 else{
 				 cmpt--;
 			 }
 		 }
+	 }
+
+	 //auto play snake ai
+	 private void autoPlaySnake() {
+	 	AutoPlay.setState(Window.convertSimpleGrid(Window.Grid));
+	 	AutoPlay.setSnake(positions);
+	 	AutoPlay.setHeadSnake(headSnakePos);
+	 	AutoPlay.setSizeSnake(sizeSnake);
+	 	System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
+	 	directionSnake = AutoPlay.proposeDirection(headSnakePos.getY(),headSnakePos.getX(),directionSnake);
+	 	System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
 	 }
 }

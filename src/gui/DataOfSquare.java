@@ -1,9 +1,13 @@
+package com.gui;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
+
+import com.gui.SubSquarePanel;
 
 public class DataOfSquare extends JPanel {
 
@@ -13,11 +17,11 @@ public class DataOfSquare extends JPanel {
 	public ArrayList<ArrayList<SubSquarePanel>> GridChild;
 	private int height = 5;
 	private int width = 5;
-	public int obj = 0;
+	public Integer obj;
 
 	//obj : 0: space ; 1: food; 2: snake; 3: border
 	public DataOfSquare(int object){
-		obj = object;
+		obj = new Integer(object);
 
 		GridChild = new ArrayList<ArrayList<SubSquarePanel>>();
 		ArrayList<SubSquarePanel> data;

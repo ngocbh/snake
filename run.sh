@@ -1,5 +1,4 @@
 #!/bin/bash
 
-cd src;
-javac *.java;
-java Main;
+./build.sh;
+java -classpath bin com.gui.Main;

@@ -1,3 +1,5 @@
+package com.gui;
+
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.util.ArrayList;

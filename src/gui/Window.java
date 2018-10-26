@@ -1,3 +1,5 @@
+package com.gui;
+
 import java.awt.GridLayout;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -5,12 +7,14 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JFrame;
 
+import com.gui.*;
 
 class Window extends JFrame{
 	private static final long serialVersionUID = -2542001418764869760L;
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
 	public static int width = 20;
 	public static int height = 20; 
+
 	public Window(int width,int height){
 		
 		this.width = width;
@@ -57,5 +61,17 @@ class Window extends JFrame{
 		//ControlleurThreads c2 = new ControlleurThreads(position2);
 		//c2.start();
 		
+	}
+
+	public static int[][] convertSimpleGrid(ArrayList<ArrayList<DataOfSquare>> squares) {
+		int h = squares.size();
+		int w = squares.get(0).size();
+
+		int[][] res = new int[h][w];
+		for (int i = 0; i < squares.size(); i++) 
+			for (int j = 0; j < squares.get(i).size(); j++)
+				res[i][j] = squares.get(i).get(j).obj;
+
+		return res;
 	}
 }

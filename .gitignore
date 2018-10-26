@@ -1,3 +1,6 @@
+bin
+
+
 #################
 ## Eclipse
 #################
@@ -28,6 +31,12 @@ local.properties
 # PDT-specific
 .buildpath
 
+
+#################
+## Sublime Text
+#################
+*.sublime-project
+*.sublime-workspace
 
 #################
 ## Visual Studio

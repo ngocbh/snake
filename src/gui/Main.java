@@ -1,4 +1,7 @@
+package com.gui;
+
 import javax.swing.JFrame;
+import com.gui.Window;
 
 public class Main {
 
