@@ -1,4 +1,4 @@
-package ai;
+package com.ai;
 
 import java.util.ArrayList;
 import java.util.LinkedList; 
@@ -151,59 +151,84 @@ public class AutoPlay {
  	//--------------------------------------------------------------
  	// BFS ---- it will return shortest path
  	//--------------------------------------------------------------
-	static int bfs(int[][] state,int hx,int hy,int dir,int dest) {
+	static int bfs(int[][] sstate,int hx,int hy,int dir,int dest) {
 		Queue<Tuple> qu = new LinkedList<Tuple>();
-		int[][] ca = copyArray(state);
-		// qu.add(new Tuple(hx,hy,oldDir));
-		// ca[hx][hy] = 3;
-		// printArray(ca);
+		int[][] ca = copyArray(sstate);
+		// if ( dest == 3 ) {
+		// 	System.out.println("==========in bfs==========");
+		// 	printArray(sstate);
+		// 	System.out.println("");
+		// }
+		int noBo = 0;
 		int ux = hx, uy = hy;
-		if ( ca[ux-1][uy] < 2 && dir == 3 ) {
-			ca[ux-1][uy] = dir + 4;
-			qu.add(new Tuple(ux-1,uy,0));
+		if ( dest == 1 ) {
+			if ( dir == 3 ) qu.add(new Tuple(ux-1,uy,0));
+			if ( dir == 4 ) qu.add(new Tuple(ux+1,uy,0));
+			if ( dir == 2 ) qu.add(new Tuple(ux,uy-1,0));
+			if ( dir == 1 ) qu.add(new Tuple(ux,uy+1,0));
+		} else {
+			if ( dir != 4 ) qu.add(new Tuple(ux-1,uy,0));
+			if ( dir != 3 ) qu.add(new Tuple(ux+1,uy,0));
+			if ( dir != 1 ) qu.add(new Tuple(ux,uy-1,0));
+			if ( dir != 2 ) qu.add(new Tuple(ux,uy+1,0));
 		}
-		if ( ca[ux+1][uy] < 2 && dir == 4 ) {
-			ca[ux+1][uy] = dir + 4;
-			qu.add(new Tuple(ux+1,uy,0));
-		}
-		if ( ca[ux][uy-1] < 2 && dir == 2 ) {
-			ca[ux][uy-1] = dir + 4;
-			qu.add(new Tuple(ux,uy-1,0));
-		}
-		if ( ca[ux][uy+1] < 2 && dir == 1 ) {
-			ca[ux][uy+1] = dir + 4;
-			qu.add(new Tuple(ux,uy+1,0));
-		}
-
 		while (qu.size() > 0) {
 			Tuple u = qu.poll();
 			ux = u.getX();
 			uy = u.getY();
 			int length = u.getLength();
-			// System.out.printf("%d %d %d\n",ux,uy,length);
+			// System.out.printf("%d %d %d %d\n",ux,uy,length,ca[ux][uy]);
 
-			if ( state[ux][uy] == dest ) {
+			if ( sstate[ux][uy] == dest ) {
 				//return proposal;
-				// printArray(ca);
-				return length;
+				if ( dest == 3 ) {
+					if ( ca[ux][uy] < 4 ) 
+						++noBo;
+				} 
+				if ( dest == 1 ) 
+					return length;
 			}
 
-			if ( ca[ux-1][uy] < 2 ) {
-				ca[ux-1][uy] = dir + 4;
-				qu.add(new Tuple(ux-1,uy,length+1));
-			}
-			if ( ca[ux+1][uy] < 2 ) {
-				ca[ux+1][uy] = dir + 4;
-				qu.add(new Tuple(ux+1,uy,length+1));
-			}
-			if ( ca[ux][uy-1] < 2 ) {
-				ca[ux][uy-1] = dir + 4;
-				qu.add(new Tuple(ux,uy-1,length+1));
-			}
-			if ( ca[ux][uy+1] < 2 ) {
-				ca[ux][uy+1] = dir + 4;
-				qu.add(new Tuple(ux,uy+1,length+1));
-			}
+			if ( ca[ux][uy] > 1 ) continue;
+			ca[ux][uy] = dir+4;
+			qu.add(new Tuple(ux-1,uy,length+1));
+			qu.add(new Tuple(ux+1,uy,length+1));
+			qu.add(new Tuple(ux,uy-1,length+1));
+			qu.add(new Tuple(ux,uy+1,length+1));
+		}
+		
+		if ( dest == 3 ) {
+			System.out.println("==========begin=====noBo====================");
+			System.out.printf("%d\n",noBo);
+			System.out.println("==========end=====noBo====================");
+
+			for (int i = 1; i < sstate.length-1; i++)
+				for (int j = 1; j < sstate.length-1; j++) {
+					if ( sstate[i][j] == 2 ) {
+						if ( sstate[i-1][j] == 3 ) noBo += 1;
+						if ( sstate[i+1][j] == 3 ) noBo += 1;
+						if ( sstate[i][j-1] == 3 ) noBo += 1;
+						if ( sstate[i][j+1] == 3 ) noBo += 1;
+					}
+				}
+
+			if ( sstate[1][1] == 2 ) noBo += 1;
+			if ( sstate[1][sstate[0].length-2] == 3 ) noBo += 1;
+			if ( sstate[sstate.length-2][1] == 3 ) noBo += 1;
+			if ( sstate[sstate.length-2][sstate[0].length-2] == 3 ) noBo += 1;
+
+			if (noBo != 72) {
+				if ( dest == 3 ) {
+					System.out.println("==========in bfs --- return end ==========");
+					printArray(ca);
+					System.out.println("");
+				}
+
+				System.out.println("==========begin=====noBo====================");
+				System.out.printf("%d\n",noBo);
+				System.out.println("==========end=====noBo====================");
+			} 
+			return noBo;
 		}
 		return -1;
 	}
@@ -220,7 +245,7 @@ public class AutoPlay {
 			int length = bfs(state,hx,hy,i,1);
 			if ( length != -1 ) 
 				res.add(new Tuple(i,length));
-			System.out.printf("%d %d\n",i,length);
+			// System.out.printf("%d %d\n",i,length);
 		}
 
 		Collections.sort(res, new Comparator<Tuple>() {
@@ -232,15 +257,20 @@ public class AutoPlay {
 	    });
 
 		for (int i = 0; i < res.size(); i++) {
-			System.out.printf("%d %d\n",res.get(i).getX(),res.get(i).getY());
+			// System.out.printf("%d %d\n",res.get(i).getX(),res.get(i).getY());
 			int dir = res.get(i).getX();
 			int length = res.get(i).getY();
 			return dir;
 		}
-	    return 0;
+
+		if ( state[hx-1][hy] < 2 ) return 3;
+		if ( state[hx+1][hy] < 2 ) return 4;
+		if ( state[hx][hy-1] < 2 ) return 2;
+		if ( state[hx][hy+1] < 2 ) return 1;
+	    return oldDir;
 	}
 
-	static int bfdProposalAndPostprocessing(int hx,int hy,int oldDir) {
+	static int bfsProposalAndPostprocessing(int hx,int hy,int oldDir) {
 		ArrayList<Tuple> res = new ArrayList<Tuple>();
 
 		for (int i = 1; i <= 4; i++) { 
@@ -249,7 +279,7 @@ public class AutoPlay {
 			int length = bfs(state,hx,hy,i,1);
 			if ( length != -1 ) 
 				res.add(new Tuple(i,length));
-			System.out.printf("%d %d\n",i,length);
+			// System.out.printf("%d %d\n",i,length);
 		}
 
 		Collections.sort(res, new Comparator<Tuple>() {
@@ -260,19 +290,74 @@ public class AutoPlay {
 	        }
 	    });
 
+
+		ArrayList<Tuple> dm = new ArrayList<Tuple>();
+		// System.out.println("==========haha==========");
 		for (int i = 0; i < res.size(); i++) {
-			System.out.printf("%d %d\n",res.get(i).getX(),res.get(i).getY());
+			// System.out.printf("%d %d\n",res.get(i).getX(),res.get(i).getY());
 			int dir = res.get(i).getX();
 			int length = res.get(i).getY();
 			fakeMove(dir);
-			if ( bfs(predictState,hx,hy,dir,3) != -1 ) 
+
+			// System.out.println("==========state==========");
+			// printArray(state);
+			// System.out.println("");
+			// System.out.println("==========predictState==========");
+			// printArray(predictState);
+			// System.out.println("");
+
+			int noBo = bfs(predictState,predictHeadSnake.getY(),predictHeadSnake.getX(),dir,3);
+
+			System.out.printf("%d %d\n",noBo,dir);
+			if ( noBo >= predictState.length*2 + predictState[0].length*2 -8 ) 
 				return dir;
+			else {
+				dm.add(new Tuple(dir,noBo));
+			}
 		}
+
+		Collections.sort(dm, new Comparator<Tuple>() {
+	        @Override
+	        public int compare(Tuple u, Tuple v)
+	        {
+	        	return u.y - v.y;
+	        }
+	    });
+
+	    for (int i = 0; i < dm.size(); i++) return dm.get(0).getX();
+
+		for (int i = 0; i < res.size(); i++) {
+			// System.out.printf("%d %d\n",res.get(i).getX(),res.get(i).getY());
+			int dir = res.get(i).getX();
+			int length = res.get(i).getY();
+			return dir;
+		}
+
+		//Xu huong di ve duoi
+		Tuple tail = snake.get(0);
+		int xp = 0, yp = 0;
+		if ( tail.x > hx ) xp = 1; 
+		else if ( tail.x < hx ) xp = -1;
+		if ( tail.y > hy ) yp = 1; 
+		else if ( tail.y < hy ) yp = -1;
+
+		if ( state[hx-1][hy] < 2 && xp == -1 ) return 3;
+		if ( state[hx+1][hy] < 2 && xp == 1) return 4;
+		if ( state[hx][hy-1] < 2 && yp == -1) return 2;
+		if ( state[hx][hy+1] < 2 && yp == 1) return 1;
+
+		//chon dai
+	    if ( state[hx-1][hy] < 2 ) return 3;
+		if ( state[hx+1][hy] < 2 ) return 4;
+		if ( state[hx][hy-1] < 2 ) return 2;
+		if ( state[hx][hy+1] < 2 ) return 1;
+
+		//tu sat di :)
 	    return oldDir;
 	}
 
 	public static int proposeDirection(int hx,int hy,int oldDir) {
-		return bfdProposalAndPostprocessing(hx,hy,oldDir);
+		return bfsProposalAndPostprocessing(hx,hy,oldDir);
 	}
 
 }

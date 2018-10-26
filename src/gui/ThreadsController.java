@@ -212,8 +212,8 @@ public class ThreadsController extends Thread {
 	 	AutoPlay.setSnake(positions);
 	 	AutoPlay.setHeadSnake(headSnakePos);
 	 	AutoPlay.setSizeSnake(sizeSnake);
-	 	System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
+	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
 	 	directionSnake = AutoPlay.proposeDirection(headSnakePos.getY(),headSnakePos.getX(),directionSnake);
-	 	System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
+	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
 	 }
 }
