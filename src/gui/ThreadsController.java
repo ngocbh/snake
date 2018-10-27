@@ -8,26 +8,25 @@ import com.gui.*;
 //Controls all the game logic .. most important class in this project.
 public class ThreadsController extends Thread {
 	 ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
-	 Tuple headSnakePos;
-	 int sizeSnake=1;
 	 long speed = 20;
-	 public static int directionSnake ;
-	 public static boolean autoPlay = true;
-	 ArrayList<Tuple> positions = new ArrayList<Tuple>();
-	 Tuple foodPosition;
-	 AutoPlay brain;
+	 public boolean autoPlay;
 
+	 Tuple foodPosition;
+	 Snake snake;
+	 AutoPlay autobot = new AutoPlay();
 	 //Constructor of ControlleurThread 
-	 ThreadsController(Tuple positionDepart){
+	 ThreadsController(boolean auto,long spd,Tuple positionDepart){
 		//Get all the threads
-		Squares=Window.Grid;
-		brain = new AutoPlay(Window.convertSimpleGrid(Window.Grid));
-		headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
-		directionSnake = 1;
+		autoPlay = auto;
+		speed = spd;
+		snake = new Snake();
+		Squares = Window.Grid;
+		snake.headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
+		snake.directionSnake = 1;
 
 		//!!! Pointer !!!!
-		Tuple headPos = new Tuple(headSnakePos.getX(),headSnakePos.getY());
-		positions.add(headPos);
+		Tuple headPos = new Tuple(snake.headSnakePos.getX(),snake.headSnakePos.getY());
+		snake.positions.add(headPos);
 		
 		foodPosition= getValAleaNotInSnake();
 		spawnFood(foodPosition);
@@ -39,18 +38,16 @@ public class ThreadsController extends Thread {
 		 while(true){
 		 	System.out.println("-----ROUND---------");
 		 	// System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
-		 	// System.out.println("-----AI-Snake---------");
-		 	
 		 	// System.out.println("-----Move Interne---------");
-			moveInterne(directionSnake);
+			snake.moveInterne(snake.directionSnake);
 			// System.out.println("-----Check Collision---------");
 			checkCollision();
 			// System.out.println("-----Move Externe---------");
-			moveExterne();
+			snake.moveExterne();
 			// System.out.println("-----Delete Tail---------");
-			deleteTail();
+			snake.deleteTail();
 			pauser();
-			
+			// System.out.println("-----AI-Snake---------");
 			if ( autoPlay ) autoPlaySnake();
 			// return;
 		 }
@@ -67,9 +64,9 @@ public class ThreadsController extends Thread {
 	 
 	 //Checking if the snake bites itself or is eating
 	 private void checkCollision() {
-		 Tuple posCritique = positions.get(positions.size()-1);
+		 Tuple posCritique = snake.positions.get(snake.positions.size()-1);
 
-		 int hy = headSnakePos.getX(), hx = headSnakePos.getY();
+		 int hy = snake.headSnakePos.getX(), hx = snake.headSnakePos.getY();
 		 if ( Squares.get(hx).get(hy).obj > 1 ) {
 		 	stopTheGame();
 		 }
@@ -77,7 +74,7 @@ public class ThreadsController extends Thread {
 		 boolean eatingFood = posCritique.getX()==foodPosition.y && posCritique.getY()==foodPosition.x;
 		 if(eatingFood){
 			 System.out.println("Yummy!");
-			 sizeSnake=sizeSnake+1;
+			 snake.sizeSnake=snake.sizeSnake+1;
 			 	foodPosition = getValAleaNotInSnake();
 
 			 spawnFood(foodPosition);	
@@ -110,110 +107,16 @@ public class ThreadsController extends Thread {
 		 return freeSquares.get(ranVal);
 	 }
 	 
-	 //Moves the head of the snake and refreshes the positions in the arraylist
-	 //1:right 2:left 3:top 4:bottom 0:nothing
-	 private void moveInterne(int dir){
-		 switch(dir){
-		 	case 4:
-				 headSnakePos.ChangeData(headSnakePos.x,(headSnakePos.y+1)%20);
-				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		 	case 3:
-		 		if(headSnakePos.y-1<0){
-		 			 headSnakePos.ChangeData(headSnakePos.x,19);
-		 		 }
-		 		else{
-				 headSnakePos.ChangeData(headSnakePos.x,Math.abs(headSnakePos.y-1)%20);
-		 		}
-				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		 	case 2:
-		 		 if(headSnakePos.x-1<0){
-		 			 headSnakePos.ChangeData(19,headSnakePos.y);
-		 		 }
-		 		 else{
-		 			 headSnakePos.ChangeData(Math.abs(headSnakePos.x-1)%20,headSnakePos.y);
-		 		 } 
-		 		positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-
-		 		break;
-		 	case 1:
-				 headSnakePos.ChangeData(Math.abs(headSnakePos.x+1)%20,headSnakePos.y);
-				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		 break;
-		 }
-		 // System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
-	 }
-
-	 private void turnOn(Tuple u,Tuple v,boolean isHead) {
-	 	 int uy = u.getX(), ux = u.getY();
-	 	 int vy = v.getX(), vx = v.getY();
-
-		 // System.out.printf("%d %d\n",ux,uy);
-		 Squares.get(ux).get(uy).lightMeUp(5,2,isHead);
-
-		 if ( ux == vx + 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(1,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(2,2,false);
-		 } else if ( ux == vx - 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(2,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(1,2,false);
-		 } else if ( uy == vy + 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(3,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(4,2,false);
-		 } else if ( uy == vy - 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(4,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(3,2,false);
-		 }
-	 }
-	 
-	 //Refresh the squares that needs to be 
-	 private void moveExterne(){
-	 	Tuple prev = new Tuple(-10,-10);
-
-		 for(int i=0; i < positions.size(); i++) {
-		 	 Tuple t = positions.get(i);
-		 	 boolean isHead = false;
-		 	 if ( i == positions.size()-1 ) 
-		 	 	isHead = true;
-			 turnOn(t,prev,isHead);
-			 prev = t;
-		 }
-	 }
-	 
-	 //Refreshes the tail of the snake, by removing the superfluous data in positions arraylist
-	 //and refreshing the display of the things that is removed
-	 private void deleteTail(){
-		 int cmpt = sizeSnake;
-		 for(int i = positions.size()-1;i>=0;i--){
-			 if(cmpt==0){
-				 Tuple t = positions.get(i);
-				 Squares.get(t.y).get(t.x).lightMeUp(5,0,false);
-			 }
-			 else{
-				 cmpt--;
-			 }
-		 }
-		 cmpt = sizeSnake;
-		 for(int i = positions.size()-1;i>=0;i--){
-			 if(cmpt==0){
-			 	// System.out.printf("%d %d\n",positions.get(i).getX() , positions.get(i).getY());
-				 positions.remove(i);
-			 }
-			 else{
-				 cmpt--;
-			 }
-		 }
-	 }
-
 	 //auto play snake ai
 	 private void autoPlaySnake() {
-	 	AutoPlay.setState(Window.convertSimpleGrid(Window.Grid));
-	 	AutoPlay.setSnake(positions);
-	 	AutoPlay.setHeadSnake(headSnakePos);
-	 	AutoPlay.setSizeSnake(sizeSnake);
+
+	 	autobot.setState(Window.convertSimpleGrid(Window.Grid));
+	 	autobot.setSnake(snake.positions);
+	 	autobot.setHeadSnake(snake.headSnakePos);
+	 	autobot.setSizeSnake(snake.sizeSnake);
+	 	autobot.foodPos = foodPosition;
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
-	 	directionSnake = AutoPlay.proposeDirection(headSnakePos.getY(),headSnakePos.getX(),directionSnake);
+	 	snake.directionSnake = autobot.proposeDirection(snake.headSnakePos.getY(),snake.headSnakePos.getX(),snake.directionSnake);
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
 	 }
 }

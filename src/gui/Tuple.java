@@ -5,27 +5,28 @@ public class Tuple {
 	  public  int y; 
 	  public int xf;
 	  public int yf;
-	  public int rem;
-	  public int length = 0;
+	  public int length;
+	  public int dir = 0;
+
 	  public Tuple(int x, int y) { 
 	    this.x = x; 
 	    this.y = y; 
-	    this.rem = 0;
 	    this.length = 0;
+	    this.dir = 0;
 	  } 
 
-	  public Tuple(int x,int y,int length) {
+	  public Tuple(int x,int y,int dir) {
 	  	this.x = x;
 	  	this.y = y;
-	  	this.rem = 0;
-	  	this.length = length;
+	  	this.length = 0;
+	  	this.dir = dir;
 	  }
 
-	  public Tuple(int x,int y,int rem,int length) {
+	  public Tuple(int x,int y,int length,int dir) {
 	  	this.x = x;
 	  	this.y = y;
-	  	this.rem = rem;
 	  	this.length = length;
+	  	this.dir = dir;
 	  }
 
 	  public void ChangeData(int x, int y){
@@ -33,17 +34,17 @@ public class Tuple {
 		    this.y = y; 
 	  }
 
-	  public void ChangeData(int x,int y,int length) {
+	  public void ChangeData(int x,int y,int dir) {
 	  	this.x = x;
 	  	this.y = y;
-	  	this.length = length;
+	  	this.dir = dir;
 	  }
 
-	  public void ChangeData(int x,int y,int rem,int length) {
+	  public void ChangeData(int x,int y,int dir,int length) {
 	  	this.x = x;
 	  	this.y = y;
-	  	this.rem = rem;
 	  	this.length = length;
+	  	this.dir = dir;
 	  }
 
 	  public int getX(){
@@ -52,8 +53,8 @@ public class Tuple {
 	  public int getY(){
 		  return y;
 	  }
-	  public int getRem(){
-	  	return rem;
+	  public int getLength(){
+	  	return length;
 	  }
 	  public int getXf(){
 		  return xf;
@@ -61,10 +62,11 @@ public class Tuple {
 	  public int getYf(){
 		  return yf;
 	  }
-	  public int getLength(){
-	  	return length;
+	  public int getDir(){
+	  	return dir;
 	  }
-
-		  
-		  
+	  
+	  public void print() {
+	  	System.out.printf("%d %d %d %d\n",x,y,dir,length);
+	  }
 } 
