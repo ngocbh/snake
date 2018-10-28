@@ -65,8 +65,58 @@ public class Tuple {
 	  public int getDir(){
 	  	return dir;
 	  }
+
+	public Tuple next(int dir) {
+		if (dir == 1) 
+			return new Tuple(x,y+1,dir);
+		else if (dir == 2) 
+			return new Tuple(x,y-1,dir);
+		else if (dir == 3)
+			return new Tuple(x-1,y,dir);
+		return new Tuple(x+1,y,dir);
+	}
+
+	public Tuple prev(int dir) {
+		if (dir == 1)
+			return new Tuple(x,y-1,dir);
+		else if (dir == 2)
+			return new Tuple(x,y+1,dir);
+		else if (dir == 3) 
+			return new Tuple(x+1,y,dir);
+		return new Tuple(x-1,y,dir);
+	}
+
+	public Tuple left() {
+		if ( dir == 1 ) 
+			return this.next(3);
+		else if ( dir == 2 ) 
+			return this.next(4);
+		else if ( dir == 3 ) 
+			return this.next(2);
+		return this.next(1);
+	}
+
+	public Tuple right() {
+		if ( dir == 1 ) 
+			return this.next(4);
+		else if ( dir == 2 ) 
+			return this.next(3);
+		else if ( dir == 3 ) 
+			return this.next(1);
+		return this.next(2);
+	}
+
+	public static int opposite(int dir) {
+		if ( dir == 1 ) 
+			return 2;
+		else if ( dir == 2 ) 
+			return 1;
+		else if ( dir == 3 ) 
+			return 4;
+		return 3;
+	}
 	  
-	  public void print() {
+	public void print() {
 	  	System.out.printf("%d %d %d %d\n",x,y,dir,length);
-	  }
+	}
 } 

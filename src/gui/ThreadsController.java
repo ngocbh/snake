@@ -22,7 +22,9 @@ public class ThreadsController extends Thread {
 		speed = spd;
 		snake = new Snake();
 		Squares = Window.Grid;
+
 		snake.headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
+		snake.tailSnakePos=new Tuple(positionDepart.x,positionDepart.y);
 		snake.directionSnake = 1;
 
 		//!!! Pointer !!!!
@@ -37,7 +39,7 @@ public class ThreadsController extends Thread {
 	//Important part :
 	public void run() {
 		while(true){
-		 	System.out.println("-----ROUND---------");
+		 	// System.out.println("-----ROUND---------");
 		 	// System.out.println("-----Move Interne---------");
 			snake.moveInterne(snake.directionSnake);
 			snake.moveExterne();
@@ -49,10 +51,7 @@ public class ThreadsController extends Thread {
 			// System.out.println("-----Delete Tail---------");
 			snake.deleteTail();
 			pauser();
-			System.out.println("-----AI-Snake---------");
-			// Utils.printArray(snake.state);
-			// snake.tailSnakePos.print();
-			// Utils.printArray(Window.convertSimpleGrid(Window.Grid));
+			// System.out.println("-----AI-Snake---------");
 			if ( autoPlay ) autoPlaySnake();
 			// return;
 		}
@@ -71,12 +70,12 @@ public class ThreadsController extends Thread {
 	private void checkCollision() {
 		Tuple posCritique = snake.positions.get(snake.positions.size()-1);
 
-		int hy = snake.headSnakePos.getX(), hx = snake.headSnakePos.getY();
+		int hx = snake.headSnakePos.getX(), hy = snake.headSnakePos.getY();
 		if ( Squares.get(hx).get(hy).obj > 1 ) {
 		 	stopTheGame();
 		}
 		 
-		boolean eatingFood = posCritique.getX()==foodPosition.y && posCritique.getY()==foodPosition.x;
+		boolean eatingFood = posCritique.getX()==foodPosition.x && posCritique.getY()==foodPosition.y;
 		if(eatingFood){
 			System.out.println("Yummy!");
 			snake.sizeSnake=snake.sizeSnake+1;
@@ -113,8 +112,8 @@ public class ThreadsController extends Thread {
 	}
 
 	public void turnOn(Tuple u,Tuple v,boolean isHead) {
-	 	int uy = u.getX(), ux = u.getY();
-	 	int vy = v.getX(), vx = v.getY();
+	 	int ux = u.getX(), uy = u.getY();
+	 	int vx = v.getX(), vy = v.getY();
 
 		// System.out.printf("%d %d\n",ux,uy);
 		Squares.get(ux).get(uy).lightMeUp(5,2,isHead);
@@ -153,7 +152,7 @@ public class ThreadsController extends Thread {
 		for(int i = snake.positions.size()-1;i>=0;i--){
 			if(cmpt==0){
 				Tuple t = snake.positions.get(i);
-				Squares.get(t.y).get(t.x).lightMeUp(5,0,false);
+				Squares.get(t.x).get(t.y).lightMeUp(5,0,false);
 			}
 			else {
 				cmpt--;
@@ -166,7 +165,7 @@ public class ThreadsController extends Thread {
 	 	autobot.setSnake(snake);
 	 	autobot.foodPos = foodPosition;
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
-	 	snake.directionSnake = autobot.proposeDirection(snake.headSnakePos.getY(),snake.headSnakePos.getX(),snake.directionSnake);
+	 	snake.directionSnake = autobot.proposeDirection(snake,snake.directionSnake);
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
 	}
 }

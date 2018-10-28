@@ -8,7 +8,7 @@ public class Main {
 	static int width = 20;
 	static int height = 20;
 	static long speed = 20;
-
+	static algorithm = 2;
 	public static void main(String[] args) {
 
 		//Creating the window with all its awesome snaky features
@@ -20,7 +20,7 @@ public class Main {
 		// Add Player 1
 		//--------------------------------------------------------------
 		// initial position of the snake
-		Tuple position1 = new Tuple(2,2);
+		Tuple position1 = new Tuple(2,4);
 		// passing this value to the controller
 		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1);
 		//Let's start the game now..

@@ -8,13 +8,14 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 import com.gui.*;
+import com.ai.Utils;
 
 class Window extends JFrame{
 	private static final long serialVersionUID = -2542001418764869760L;
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
-	public static int width = 20;
-	public static int height = 20;
-	public static long speed = 20; 
+	public int width;
+	public int height;
+	public long speed = 20; 
 
 	public Window(int width,int height,long spd){
 		
@@ -53,10 +54,9 @@ class Window extends JFrame{
 		int w = squares.get(0).size();
 
 		int[][] res = new int[h][w];
-		for (int i = 0; i < squares.size(); i++) 
-			for (int j = 0; j < squares.get(i).size(); j++)
-				res[j][i] = squares.get(i).get(j).obj;
-
+		for (int i = 0; i < h; i++) 
+			for (int j = 0; j < w; j++)
+				res[i][j] = squares.get(i).get(j).obj;
 		return res;
 	}
 }

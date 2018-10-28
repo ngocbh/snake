@@ -3,6 +3,7 @@ package com.gui;
 import java.util.ArrayList;
 
 import com.ai.AutoPlay;
+import com.ai.Utils;
 import com.gui.*;
 
 public class Snake {
@@ -23,43 +24,15 @@ public class Snake {
 	//Moves the head of the snake and refreshes the positions in the arraylist
 	//1:right 2:left 3:top 4:bottom 0:nothing
 	public void moveInterne(int dir){
-		switch(dir){
-		 	case 4:
-				headSnakePos.ChangeData(headSnakePos.x,(headSnakePos.y+1)%20);
-				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		 	case 3:
-		 		if(headSnakePos.y-1<0){
-		 			headSnakePos.ChangeData(headSnakePos.x,19);
-		 		}
-		 		else{
-					headSnakePos.ChangeData(headSnakePos.x,Math.abs(headSnakePos.y-1)%20);
-		 		}
-				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		 	case 2:
-		 		if(headSnakePos.x-1<0){
-		 			headSnakePos.ChangeData(19,headSnakePos.y);
-		 		}
-		 		else{
-		 			headSnakePos.ChangeData(Math.abs(headSnakePos.x-1)%20,headSnakePos.y);
-		 		} 
-		 		positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-
-		 		break;
-		 	case 1:
-				headSnakePos.ChangeData(Math.abs(headSnakePos.x+1)%20,headSnakePos.y);
-				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		}
-		 // System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
+		headSnakePos = headSnakePos.next(dir);
+		positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
 	}
 
 	//Refresh the squares that needs to be 
 	public void moveExterne(){
 		for(int i=0; i < positions.size(); i++) {
 		 	Tuple t = positions.get(i);
-		 	state[t.y][t.x] = 2;
+		 	state[t.x][t.y] = 2;
 		}
 	}
 
@@ -71,7 +44,7 @@ public class Snake {
 			if(cmpt==0){
 			 	// System.out.printf("%d %d\n",positions.get(i).getX() , positions.get(i).getY());
 			 	Tuple t = positions.get(i);
-			 	state[t.y][t.x] = 0;
+			 	state[t.x][t.y] = 0;
 				positions.remove(i);
 			}
 			else{
