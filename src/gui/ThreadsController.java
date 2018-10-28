@@ -162,6 +162,7 @@ public class ThreadsController extends Thread {
 	 
 	//auto play snake ai
 	private void autoPlaySnake() {
+		snake.state = Window.convertSimpleGrid(Window.Grid);
 	 	autobot.setSnake(snake);
 	 	autobot.foodPos = foodPosition;
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);

@@ -81,6 +81,8 @@ public class AutoPlay {
 			return direct.dir;
 		}
 
+		// foodPos.print();
+
 		LinkedList<Tuple> longestPath, shortestPath;
 		int hx = snake.headSnakePos.x;
 		int hy = snake.headSnakePos.y;
@@ -105,31 +107,51 @@ public class AutoPlay {
 			if ( longestPath.size() > 0 || ( virtualSnake.headSnakePos.x == virtualSnake.tailSnakePos.x && virtualSnake.headSnakePos.y == virtualSnake.tailSnakePos.y ) ) {
 				path = (LinkedList<Tuple>) shortestPath.clone();
 				Tuple direct = path.remove();
+				// System.out.println("=======step 3========");
+				// Tuple direct = shortestPath.remove();
 				return direct.dir;
 			}
 		}
 
 		//step 4
+		// System.out.println("======= check step 4========");
+		// snake.headSnakePos.print();
+		// snake.tailSnakePos.print();
+
 		longestPath = Utils.findLongestPath(snake.state,hx,hy,snake.tailSnakePos.x,snake.tailSnakePos.y);
+
+		// System.out.printf("%d\n", longestPath.size());
 		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
+			// System.out.println("=======step 4========");
 			return direct.dir;
 		}
 
-		//step 4
+		//step 5
+		longestPath = Utils.findLongestPath(snake.state,hx,hy,foodPos.x,foodPos.y);
+		if (longestPath.size() > 0) {
+			Tuple direct = longestPath.remove();
+			// System.out.println("=======step 5========");
+			return direct.dir;
+		}
+
+		//step 6
+
+		// System.out.println("=======step 6========");
 		if ( snake.state[hx-1][hy] < 2 ) return 3;
 		if ( snake.state[hx+1][hy] < 2 ) return 4;
 		if ( snake.state[hx][hy-1] < 2 ) return 2;
 		if ( snake.state[hx][hy+1] < 2 ) return 1;
 
-		return 1;
+		return oldDir;
 	}
 
-	public int proposeDirection(Snake snake,int oldDir) {
 
-		if ( algorithm == 1 )
+
+	public int proposeDirection(Snake snake,int oldDir) {
+		if ( Main.algorithm == 1 )
 			return BFSProposal(snake,oldDir);
-		else if ( algorithm == 2 ) 
+		else if ( Main.algorithm == 2 ) 
 			return GreedyAlgorithm(snake,oldDir);
 		return oldDir;
 	}

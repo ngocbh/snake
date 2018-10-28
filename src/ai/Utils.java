@@ -43,13 +43,13 @@ public class Utils {
 		
 		u = new Tuple(sx,sy);
 		v = u.next(1); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
 		v = u.next(2); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
 		v = u.next(3); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
 		v = u.next(4); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
 
 		while (qu.size() > 0) {
 			u = qu.poll();

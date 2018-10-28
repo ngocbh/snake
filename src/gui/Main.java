@@ -8,7 +8,10 @@ public class Main {
 	static int width = 20;
 	static int height = 20;
 	static long speed = 20;
-	static algorithm = 2;
+
+	//1 : BFS Proposal | 2 : Greedy | 
+	public static int algorithm = 2;
+
 	public static void main(String[] args) {
 
 		//Creating the window with all its awesome snaky features
@@ -26,7 +29,7 @@ public class Main {
 		//Let's start the game now..
 		threadControllerPlayer1.start();
 		// Links the window to the keyboardlistenner.
-		// this.addKeyListener((KeyListener) new KeyboardListener(c));
+		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer1));
 
 
 		// //--------------------------------------------------------------
