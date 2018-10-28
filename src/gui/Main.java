@@ -8,7 +8,7 @@ public class Main {
 	static int width = 20;
 	static int height = 20;
 	static long speed = 20;
-	static algorithm = 2;
+	public static int algorithm = 2;
 	public static void main(String[] args) {
 
 		//Creating the window with all its awesome snaky features

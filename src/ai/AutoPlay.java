@@ -127,9 +127,9 @@ public class AutoPlay {
 
 	public int proposeDirection(Snake snake,int oldDir) {
 
-		if ( algorithm == 1 )
+		if ( Main.algorithm == 1 )
 			return BFSProposal(snake,oldDir);
-		else if ( algorithm == 2 ) 
+		else if ( Main.algorithm == 2 ) 
 			return GreedyAlgorithm(snake,oldDir);
 		return oldDir;
 	}
