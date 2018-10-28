@@ -29,17 +29,17 @@ public class Main {
 		// this.addKeyListener((KeyListener) new KeyboardListener(c));
 
 
-		//--------------------------------------------------------------
-		// Add Player 2
-		//--------------------------------------------------------------
-		// initial position of the snake
-		Tuple position2 = new Tuple((int)(width/2),(int)(height/2));
-		// passing this value to the controller
-		ThreadsController threadControllerPlayer2 = new ThreadsController(true,speed,position2);
-		//Let's start the game now..
-		threadControllerPlayer2.start();
-		// Links the window to the keyboardlistenner.
-		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer2));
+		// //--------------------------------------------------------------
+		// // Add Player 2
+		// //--------------------------------------------------------------
+		// // initial position of the snake
+		// Tuple position2 = new Tuple((int)(width/2),(int)(height/2));
+		// // passing this value to the controller
+		// ThreadsController threadControllerPlayer2 = new ThreadsController(true,speed,position2);
+		// //Let's start the game now..
+		// threadControllerPlayer2.start();
+		// // Links the window to the keyboardlistenner.
+		// // f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer2));
 
 
 

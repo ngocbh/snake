@@ -7,15 +7,16 @@ import com.gui.*;
 
 public class Snake {
 	public Tuple headSnakePos;
+	public Tuple tailSnakePos;
 	public int sizeSnake=1;
 	public int directionSnake;
 	public ArrayList<Tuple> positions = new ArrayList<Tuple>();
-	public ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
+	public int[][] state;
 
 	public Snake() {
 		sizeSnake = 1;
 		positions = new ArrayList<Tuple>();
-		Squares = Window.Grid;
+		state = Window.convertSimpleGrid(Window.Grid);
 	}
 
 
@@ -54,40 +55,11 @@ public class Snake {
 		 // System.out.printf("%d %d\n",headSnakePos.getX(),headSnakePos.getY());
 	}
 
-	public void turnOn(Tuple u,Tuple v,boolean isHead) {
-	 	int uy = u.getX(), ux = u.getY();
-	 	int vy = v.getX(), vx = v.getY();
-
-		// System.out.printf("%d %d\n",ux,uy);
-		Squares.get(ux).get(uy).lightMeUp(5,2,isHead);
-
-		if ( ux == vx + 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(1,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(2,2,false);
-		} else if ( ux == vx - 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(2,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(1,2,false);
-		} else if ( uy == vy + 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(3,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(4,2,false);
-		} else if ( uy == vy - 1 ) {
-		 	Squares.get(ux).get(uy).lightMeUp(4,2,false);
-		 	Squares.get(vx).get(vy).lightMeUp(3,2,false);
-		}
-	}
-
-
 	//Refresh the squares that needs to be 
 	public void moveExterne(){
-	 	Tuple prev = new Tuple(-10,-10);
-
 		for(int i=0; i < positions.size(); i++) {
 		 	Tuple t = positions.get(i);
-		 	boolean isHead = false;
-		 	if ( i == positions.size()-1 ) 
-		 	 	isHead = true;
-			turnOn(t,prev,isHead);
-			prev = t;
+		 	state[t.y][t.x] = 2;
 		}
 	}
 
@@ -97,20 +69,13 @@ public class Snake {
 		int cmpt = sizeSnake;
 		for(int i = positions.size()-1;i>=0;i--){
 			if(cmpt==0){
-				Tuple t = positions.get(i);
-				Squares.get(t.y).get(t.x).lightMeUp(5,0,false);
-			}
-			else {
-				cmpt--;
-			}
-		}
-		cmpt = sizeSnake;
-		for(int i = positions.size()-1;i>=0;i--){
-			if(cmpt==0){
 			 	// System.out.printf("%d %d\n",positions.get(i).getX() , positions.get(i).getY());
+			 	Tuple t = positions.get(i);
+			 	state[t.y][t.x] = 0;
 				positions.remove(i);
 			}
 			else{
+				if ( cmpt == 1 ) tailSnakePos = positions.get(i);
 				cmpt--;
 			}
 		}

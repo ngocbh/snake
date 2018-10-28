@@ -55,7 +55,7 @@ class Window extends JFrame{
 		int[][] res = new int[h][w];
 		for (int i = 0; i < squares.size(); i++) 
 			for (int j = 0; j < squares.get(i).size(); j++)
-				res[i][j] = squares.get(i).get(j).obj;
+				res[j][i] = squares.get(i).get(j).obj;
 
 		return res;
 	}

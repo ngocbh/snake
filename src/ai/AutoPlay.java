@@ -11,44 +11,17 @@ import java.util.Comparator;
 import com.gui.*;
 
 public class AutoPlay {
-	public int[][] state;
-	public ArrayList<Tuple> snake;
-	public Tuple headSnake;
-	public int sizeSnake = 1;
+	public Snake snake;
 
-	public int[][] predictState;
-	public Tuple predictHeadSnake;
-	public ArrayList<Tuple> predictSnake;
-
+	public LinkedList<Tuple> path;
 	public Tuple foodPos;
-	public Stack<Tuple> path;
 	public int proposal = 0;
 
 	public AutoPlay() {} 
 
-	public AutoPlay(int h,int c) {
-		this.state = new int[h][c];
-	}
-
-	public AutoPlay(int[][] stt) {
-		this.state = stt;
-	}
-
-	public void setState(int[][] stt){
-		this.state = stt;
-	}
-
-	public void setSnake(ArrayList<Tuple> ssnake) {
+	public void setSnake(Snake ssnake) {
 		this.snake = ssnake;
 	} 
-
-	public void setHeadSnake(Tuple hheadSnake) {
-		this.headSnake = hheadSnake;
-	}
-
-	public void setSizeSnake(int size) {
-		this.sizeSnake = size;
-	}
 
 	public void setFoodPos(Tuple foodPosition) {
 		this.foodPos = foodPosition;
@@ -59,16 +32,16 @@ public class AutoPlay {
 	//--------------------------------------------------------------
 	int BFSProposal(int hx,int hy,int oldDir) {
 		if (path == null || path.size() == 0 ) 	
-			path = Utils.findShortestPath(state,hx,hy,foodPos.x,foodPos.y);
+			path = Utils.findShortestPath(snake.state,hx,hy,foodPos.x,foodPos.y);
 
 		if ( path.size() == 0 ) {
 			path = null;
-			if ( state[hx-1][hy] < 2 ) return 3;
-			if ( state[hx+1][hy] < 2 ) return 4;
-			if ( state[hx][hy-1] < 2 ) return 2;
-			if ( state[hx][hy+1] < 2 ) return 1;
+			if ( snake.state[hx-1][hy] < 2 ) return 3;
+			if ( snake.state[hx+1][hy] < 2 ) return 4;
+			if ( snake.state[hx][hy-1] < 2 ) return 2;
+			if ( snake.state[hx][hy+1] < 2 ) return 1;
 		} else {
-			Tuple direct = path.pop();
+			Tuple direct = path.remove();
 			return direct.dir;
 		}
 		return oldDir;
@@ -88,20 +61,8 @@ public class AutoPlay {
 	* 5. Let D be the direction that makes S1 the farthest from the food.
 	*/
 	int  GreedyAlgorithm(int hx,int hy,int oldDir) {
-		if (path == null || path.size() == 0 ) 	
-			path = Utils.findShortestPath(state,hx,hy,foodPos.x,foodPos.y);
-
-		if ( path.size() == 0 ) {
-			path = null;
-			if ( state[hx-1][hy] < 2 ) return 3;
-			if ( state[hx+1][hy] < 2 ) return 4;
-			if ( state[hx][hy-1] < 2 ) return 2;
-			if ( state[hx][hy+1] < 2 ) return 1;
-		} else {
-			Tuple direct = path.pop();
-			return direct.dir;
-		}
-		return oldDir;
+		// LinkedList<Tuple> longestPath = findShortestPath(state,hx,hy,)
+		return 1;
 	}
 
 	public int proposeDirection(int hx,int hy,int oldDir) {

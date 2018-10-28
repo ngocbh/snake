@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import com.gui.Tuple;
 
@@ -52,9 +53,9 @@ public class Utils {
 
 
 	//--------------------------------------------------------------
-	// use bfs to find shotest path
+	// use bfs to find shortest path
 	//--------------------------------------------------------------
-	public static Stack<Tuple> findShortestPath(int[][] state,int sx,int sy,int dx,int dy) {
+	public static LinkedList<Tuple> findShortestPath(int[][] state,int sx,int sy,int dx,int dy) {
 		int h = state.length, w = state[0].length;
 		Tuple u, v;
 		int[][] ca = copyArray(state);
@@ -75,11 +76,12 @@ public class Utils {
 			u = qu.poll();
 
 			if ( u.x == dx && u.y == dy ) {
-				Stack<Tuple> res = new Stack<Tuple>();
+				LinkedList<Tuple> res = new LinkedList<Tuple>();
 				while (u.x != sx || u.y != sy ) {
-					res.push(u);
+					res.add(u);
 					u = trace[u.x][u.y];
 				}
+				Collections.reverse(res);
 				return res;
 			}
 
@@ -108,13 +110,24 @@ public class Utils {
 			}
 		}
 
-		return new Stack<Tuple>();
+		return new LinkedList<Tuple>();
 	}
 
 	//--------------------------------------------------------------
 	// find the longest path 
 	//--------------------------------------------------------------
-	public static void findLongestPath(int state,int sx,int sy,int dx,int dy) {
-		
+	public static LinkedList<Tuple> findLongestPath(int[][] state,int sx,int sy,int dx,int dy) {
+		LinkedList<Tuple> shortestPath = findShortestPath(state,sx,sy,dx,dy);
+
+		//explose
+		System.out.println("**Iterator**");
+	    Iterator i = shortestPath.iterator();
+	    while (i.hasNext()) {
+			// Tuple next = i.next();
+			// next.print();
+	    }
+
+		LinkedList<Tuple> res = new LinkedList<Tuple>();
+		return res;
 	}
 }
