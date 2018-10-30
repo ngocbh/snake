@@ -43,15 +43,11 @@ public class Utils {
 		Tuple[][] trace = new Tuple[h][w];
 		Queue<Tuple> qu = new LinkedList<Tuple>();
 		
-		u = new Tuple(sx,sy);
-		v = u.next(1); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
-		v = u.next(2); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
-		v = u.next(3); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
-		v = u.next(4); 
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
+		Tuple sour = new Tuple(sx,sy);
+		for (int d = 1; d <= 4; d++) {
+			v = sour.next(d); 
+			if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
+		}
 
 		while (qu.size() > 0) {
 			u = qu.poll();
@@ -66,28 +62,15 @@ public class Utils {
 				return res;
 			}
 
-			if ( ca[u.x][u.y] != 0 ) continue;
-			ca[u.x][u.y] = 5;
+			if ( state[u.x][u.y] != 0 ) continue;
 
-			v = u.next(1);
-			if ( ca[v.x][v.y] != 5 ) {
-				qu.add(v);
-				if ( trace[v.x][v.y] == null ) trace[v.x][v.y] = u;
-			}
-			v = u.next(2);
-			if ( ca[v.x][v.y] != 5 ) {
-				qu.add(v);
-				if ( trace[v.x][v.y] == null ) trace[v.x][v.y] = u;
-			}
-			v = u.next(3);
-			if ( ca[v.x][v.y] != 5 ) {
-				qu.add(v);
-				if ( trace[v.x][v.y] == null ) trace[v.x][v.y] = u;
-			}
-			v = u.next(4);
-			if ( ca[v.x][v.y] != 5 ) {
-				qu.add(v);
-				if ( trace[v.x][v.y] == null ) trace[v.x][v.y] = u;
+			for (int d = 1; d <= 4; d++) {
+				v = u.next(d);
+				if ( ca[v.x][v.y] < 5) {
+					qu.add(v);
+					ca[v.x][v.y] = 5;
+					trace[v.x][v.y] = u;
+				}
 			}
 		}
 
@@ -176,15 +159,12 @@ public class Utils {
 		Tuple dest = new Tuple(dx,dy,0,0,0);
 		if ( sx == dx && sy == dy ) return new LinkedList<Tuple>();
 
-		v = next(sour,1,dest);  
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
-		v = next(sour,2,dest);
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
-		v = next(sour,3,dest);
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
-		v = next(sour,4,dest);
-		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
 
+		for (int d = 1; d <= 4; d++) {
+			v = next(sour,d,dest); 
+			if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
+		}
+	
 		while (qu.size() > 0) {
 			u = qu.remove();
 			if ( u.x == dx && u.y == dy ) {
@@ -199,29 +179,13 @@ public class Utils {
 
 			if ( state[u.x][u.y] != 0 ) continue;
 
-			v = next(u,1,dest);
-			if ( ca[v.x][v.y] < 5 ) {
-				qu.add(v);
-				ca[v.x][v.y] = 5;
-				trace[v.x][v.y] = u;
-			}
-			v = next(u,2,dest);
-			if ( ca[v.x][v.y] < 5 ) {
-				qu.add(v);
-				ca[v.x][v.y] = 5;
-				trace[v.x][v.y] = u;
-			}
-			v = next(u,3,dest);
-			if ( ca[v.x][v.y] < 5 ) {
-				qu.add(v);
-				ca[v.x][v.y] = 5;
-				trace[v.x][v.y] = u;
-			}
-			v = next(u,4,dest);
-			if ( ca[v.x][v.y] < 5) {
-				qu.add(v);
-				ca[v.x][v.y] = 5;
-				trace[v.x][v.y] = u;
+			for (int d = 1; d <= 4; d++) {
+				v = next(u,d,dest);
+				if ( ca[v.x][v.y] < 5) {
+					qu.add(v);
+					ca[v.x][v.y] = 5;
+					trace[v.x][v.y] = u;
+				}
 			}
 		}
 

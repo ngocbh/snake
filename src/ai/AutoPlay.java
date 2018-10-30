@@ -13,7 +13,7 @@ import com.gui.Window;
 
 public class AutoPlay {
 	public Snake snake;
-
+	public int algorithm = 4;
 	public LinkedList<Tuple> path = new LinkedList<Tuple>();
 	public Tuple foodPos;
 	public int proposal = 0;
@@ -62,19 +62,9 @@ public class AutoPlay {
 		return oldDir;
 	}
 
-	/*
-	* source : https://github.com/chuyangliu/Snake/blob/master/docs/algorithms.md
-	* Greedy Solver
-	* Greedy Solver directs the snake to eat the food along the shortest path if it thinks the snake will be safe. 
-	* Otherwise, it makes the snake wander around until a safe path can be found. 
-	* As it needs paths searching, it depends on Path Solver.
-	* Concretely, to find the snake S1's next moving direction D, the solver follows the steps below:
-	* 1. Compute the shortest path P1 from S1's head to the food. If P1 exists, go to step 2. Otherwise, go to step 4.
-	* 2. Move a virtual snake S2 (the same as S1) to eat the food along path P1.
-	* 3. Compute the longest path P2 from S2's head to its tail. If P2 exists, let D be the first direction in path P1. Otherwise, go to step 4.
-	* 4. Compute the longest path P3 from S1's head to its tail. If P3 exists, let D be the first direction in path P3. Otherwise, go to step 5.
-	* 5. Let D be the direction that makes S1 the farthest from the food.
-	*/
+	//--------------------------------------------------------------
+	// GreedyAlgorithm base on BFS to find shortest path
+	//--------------------------------------------------------------
 	int  GreedyAlgorithm(Snake snake,int oldDir) {
 		//step 1
 		// if (path != null && path.size() > 0 ) {
@@ -89,8 +79,7 @@ public class AutoPlay {
 		int hy = snake.headSnakePos.y;
 
 		shortestPath = Utils.findShortestPath(snake.state,hx,hy,foodPos.x,foodPos.y);
-		
-
+	
 		//step 2
 		if ( shortestPath.size() > 0 ) {
 			Snake virtualSnake = cloneSnake(snake);
@@ -249,13 +238,13 @@ public class AutoPlay {
 	}
 
 	public int proposeDirection(Snake snake,int oldDir) {
-		if ( Main.algorithm == 1 )
+		if ( algorithm == 1 )
 			return BFSProposal(snake,oldDir);
-		else if ( Main.algorithm == 2 ) 
+		else if ( algorithm == 2 ) 
 			return GreedyAlgorithm(snake,oldDir);
-		else if ( Main.algorithm == 3 ) 
+		else if ( algorithm == 3 ) 
 			return A_Star_Proposal(snake,oldDir);
-		else if ( Main.algorithm == 4 ) 
+		else if ( algorithm == 4 ) 
 			return GreedyAlgorithm_a_star(snake,oldDir);
 		return oldDir;
 	}

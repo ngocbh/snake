@@ -9,48 +9,34 @@ public class Main {
 	static int height = 20;
 	static long speed = 20;
 
-	//1 : BFS Proposal | 2 : Greedy | 
+	//1 : BFS Proposal | 2 : Greedy base on BFS  | 3 : A star Proposal | 4 : Greedy base on A star
 	public static int algorithm = 4;
 
 	public static void main(String[] args) {
+		System.out.println("[Usage] : -width [width] -height [height] -speed [speed] -algorithm [algorithm(1-4)]");
 
-		//Creating the window with all its awesome snaky features
-		
-		Window f1= new Window(width,height,speed);
-		
+		for (int i = 0; i < args.length; i++) 
+			if ( args[i].equals("-width") ) {
+				width = Integer.parseInt(args[i+1]);
+			} 
+		for (int i = 0; i < args.length; i++) 
+			if ( args[i].equals("-height") ) {
+				height = Integer.parseInt(args[i+1]);
+			} 
+		for (int i = 0; i < args.length; i++) 
+			if ( args[i].equals("-speed") ) {
+				speed = Integer.parseInt(args[i+1]);
+			} 
+		for (int i = 0; i < args.length; i++) 
+			if ( args[i].equals("-algorithm") ) {
+				algorithm = Integer.parseInt(args[i+1]);
+			} 
 
-		//--------------------------------------------------------------
-		// Add Player 1
-		//--------------------------------------------------------------
-		// initial position of the snake
-		Tuple position1 = new Tuple(2,4);
-		// passing this value to the controller
-		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1);
-		//Let's start the game now..
-		threadControllerPlayer1.start();
-		// Links the window to the keyboardlistenner.
-		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer1));
-
-
-		// //--------------------------------------------------------------
-		// // Add Player 2
-		// //--------------------------------------------------------------
-		// // initial position of the snake
-		// Tuple position2 = new Tuple((int)(width/2),(int)(height/2));
-		// // passing this value to the controller
-		// ThreadsController threadControllerPlayer2 = new ThreadsController(false,200,position2);
-		// //Let's start the game now..
-		// threadControllerPlayer2.start();
-		// // Links the window to the keyboardlistenner.
-		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer2));
-
-
-
+		GameFrame gameFrame = new GameFrame(width,height,speed,algorithm);
 		//Setting up the window settings
-		f1.setTitle("Snake");
-		f1.setSize(600,630);
-		f1.setVisible(true);
-		f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
-
+		gameFrame.setTitle("Snake");
+		gameFrame.setSize(30*height,30*(width+1));
+		gameFrame.setVisible(true);
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

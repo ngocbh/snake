@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import com.gui.*;
 import com.ai.Utils;
 
-public class Window extends JFrame{
+public class Window extends JPanel {
 	private static final long serialVersionUID = -2542001418764869760L;
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
 	public int width;
@@ -38,12 +38,12 @@ public class Window extends JFrame{
 		}
 		
 		// Setting up the layout of the panel
-		getContentPane().setLayout(new GridLayout(this.width,this.height,0,0));
+		this.setLayout(new GridLayout(this.width,this.height,0,0));
 		setBackground(Color.white);
 		// Start & pauses all threads, then adds every square of each thread to the panel
 		for(int i=0;i<width;i++){
 			for(int j=0;j<height;j++){
-				getContentPane().add(Grid.get(i).get(j));
+				this.add(Grid.get(i).get(j));
 			}
 		}
 		

@@ -11,7 +11,7 @@ public class ThreadsController extends Thread {
 	ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
 	long speed = 20;
 	public boolean autoPlay;
-
+	public int algorithm = 4;
 	Tuple foodPosition;
 	Snake snake;
 	AutoPlay autobot = new AutoPlay();
@@ -165,6 +165,7 @@ public class ThreadsController extends Thread {
 		// snake.state = Window.convertSimpleGrid(Window.Grid);
 	 	autobot.setSnake(snake);
 	 	autobot.foodPos = foodPosition;
+	 	autobot.algorithm = algorithm;
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
 	 	snake.directionSnake = autobot.proposeDirection(snake,snake.directionSnake);
 	 	// System.out.printf("%d %d %d\n",headSnakePos.getY(),headSnakePos.getX(),directionSnake);
