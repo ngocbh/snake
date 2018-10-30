@@ -39,14 +39,15 @@ Concretely, to find the snake S1's next moving direction D, the solver follows t
 3. Compute the longest path P2 from S2's head to its tail. If P2 exists, let D be the first direction in path P1. Otherwise, go to step 4.
 4. Compute the longest path P3 from S1's head to its tail. If P3 exists, let D be the first direction in path P3. Otherwise, go to step 5.
 5. Let D be the direction that makes S1 the farthest from the food.
-6. If snake cannot find the food. it wander in its space
-Sources : [chuyangliu](https://github.com/chuyangliu/Snake)
+6. If snake cannot find the food. it wander in its space.
 
-* Find shortest path
-2 algorithm to find shortest path are breadth-first search and A-star algorithm. it is the same but A-star is faster a little bit.
+#### Sources : 
+[chuyangliu](https://github.com/chuyangliu/Snake)
+[hexadeciman](https://github.com/hexadeciman/Snake)
 
-* Find longest path
-It extend the shortest path to left and right whenever it can.
+* Find shortest path: 2 algorithm to find shortest path are breadth-first search and A-star algorithm. it is the same but A-star is faster a little bit.
+
+* Find longest path: It extend the shortest path to left and right whenever it can.
 
 ### Some thing uncompleted
 * Tạo nút reset cho game
