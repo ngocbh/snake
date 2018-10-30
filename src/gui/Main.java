@@ -10,7 +10,7 @@ public class Main {
 	static long speed = 20;
 
 	//1 : BFS Proposal | 2 : Greedy | 
-	public static int algorithm = 2;
+	public static int algorithm = 4;
 
 	public static void main(String[] args) {
 
@@ -38,11 +38,11 @@ public class Main {
 		// // initial position of the snake
 		// Tuple position2 = new Tuple((int)(width/2),(int)(height/2));
 		// // passing this value to the controller
-		// ThreadsController threadControllerPlayer2 = new ThreadsController(true,speed,position2);
+		// ThreadsController threadControllerPlayer2 = new ThreadsController(false,200,position2);
 		// //Let's start the game now..
 		// threadControllerPlayer2.start();
 		// // Links the window to the keyboardlistenner.
-		// // f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer2));
+		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer2));
 
 
 

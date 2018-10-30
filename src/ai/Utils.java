@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ListIterator;
+import java.util.PriorityQueue;
+import java.util.Iterator;
 
 import com.gui.Tuple;
 
@@ -43,13 +45,13 @@ public class Utils {
 		
 		u = new Tuple(sx,sy);
 		v = u.next(1); 
-		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
 		v = u.next(2); 
-		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
 		v = u.next(3); 
-		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
 		v = u.next(4); 
-		if ( state[v.x][v.y] < 2 ) { qu.add(v); trace[v.x][v.y] = u; }
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); trace[v.x][v.y] = u; }
 
 		while (qu.size() > 0) {
 			u = qu.poll();
@@ -92,12 +94,15 @@ public class Utils {
 		return new LinkedList<Tuple>();
 	}
 
+
 	//--------------------------------------------------------------
 	// find the longest path 
 	//--------------------------------------------------------------
 	public static LinkedList<Tuple> findLongestPath(int[][] state,int sx,int sy,int dx,int dy) {
-		LinkedList<Tuple> longestPath = findShortestPath(state,sx,sy,dx,dy);
+		LinkedList<Tuple> longestPath = findShortestPath_a_star(state,sx,sy,dx,dy);
 		int[][] ca = copyArray(state);
+	
+		if ( longestPath.size() == 0 ) return longestPath;
 
 		for (int i = 0; i < longestPath.size(); i++) {
 			ca[longestPath.get(i).x][longestPath.get(i).y] = 5;
@@ -139,6 +144,136 @@ public class Utils {
 		// System.out.println("======Longest Path=========");
 		// for (i = 0; i < longestPath.size(); i++) 
 		// 	longestPath.get(i).print();
+
+		return longestPath;
+	}
+
+
+	//--------------------------------------------------------------
+	// next and calculate heuristic function
+	//--------------------------------------------------------------
+	static Tuple next(Tuple cur,int dir,Tuple dest) {
+		if (dir == 1) 
+			return new Tuple(cur.x,cur.y+1,dir,cur.length+1,dest);
+		else if (dir == 2) 
+			return new Tuple(cur.x,cur.y-1,dir,cur.length+1,dest);
+		else if (dir == 3)
+			return new Tuple(cur.x-1,cur.y,dir,cur.length+1,dest);
+		return new Tuple(cur.x+1,cur.y,dir,cur.length+1,dest);
+	}
+
+	//--------------------------------------------------------------
+	// use a star to find shortest path : heuristic_cost_estimate = abs(dx-ux) + abs(dy-uy)
+	//--------------------------------------------------------------
+	public static LinkedList<Tuple> findShortestPath_a_star(int[][] state,int sx,int sy,int dx,int dy) {
+		int h = state.length, w = state[0].length;
+		Tuple u, v;
+		int[][] ca = copyArray(state);
+		Tuple[][] trace = new Tuple[h][w];
+		PriorityQueue<Tuple> qu = new PriorityQueue<Tuple>(Tuple.tupleComparator());
+		
+		Tuple sour = new Tuple(sx,sy,0,0,0);
+		Tuple dest = new Tuple(dx,dy,0,0,0);
+		if ( sx == dx && sy == dy ) return new LinkedList<Tuple>();
+
+		v = next(sour,1,dest);  
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
+		v = next(sour,2,dest);
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
+		v = next(sour,3,dest);
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
+		v = next(sour,4,dest);
+		if ( state[v.x][v.y] == 0 ) { qu.add(v); ca[v.x][v.y] = 5; trace[v.x][v.y] = sour; }
+
+		while (qu.size() > 0) {
+			u = qu.remove();
+			if ( u.x == dx && u.y == dy ) {
+				LinkedList<Tuple> res = new LinkedList<Tuple>();
+				while (u.x != sx || u.y != sy ) {
+					res.add(u);
+					u = trace[u.x][u.y];
+				}
+				Collections.reverse(res);
+				return res;
+			}
+
+			if ( state[u.x][u.y] != 0 ) continue;
+
+			v = next(u,1,dest);
+			if ( ca[v.x][v.y] < 5 ) {
+				qu.add(v);
+				ca[v.x][v.y] = 5;
+				trace[v.x][v.y] = u;
+			}
+			v = next(u,2,dest);
+			if ( ca[v.x][v.y] < 5 ) {
+				qu.add(v);
+				ca[v.x][v.y] = 5;
+				trace[v.x][v.y] = u;
+			}
+			v = next(u,3,dest);
+			if ( ca[v.x][v.y] < 5 ) {
+				qu.add(v);
+				ca[v.x][v.y] = 5;
+				trace[v.x][v.y] = u;
+			}
+			v = next(u,4,dest);
+			if ( ca[v.x][v.y] < 5) {
+				qu.add(v);
+				ca[v.x][v.y] = 5;
+				trace[v.x][v.y] = u;
+			}
+		}
+
+		return new LinkedList<Tuple>();
+	}
+
+
+	//--------------------------------------------------------------
+	// find the longest path 
+	//--------------------------------------------------------------
+	public static LinkedList<Tuple> findLongestPath_a_star(int[][] state,int sx,int sy,int dx,int dy) {
+		LinkedList<Tuple> longestPath = findShortestPath_a_star(state,sx,sy,dx,dy);
+		int[][] ca = copyArray(state);
+
+		if ( longestPath.size() == 0 ) return longestPath;
+
+		for (int i = 0; i < longestPath.size(); i++) {
+			ca[longestPath.get(i).x][longestPath.get(i).y] = 5;
+		}
+
+		//explose path
+		int i = 0;
+		while ( true ) {
+			if ( i >= longestPath.size() ) break;
+
+			Tuple v = longestPath.get(i);
+			int dir = v.dir;
+			Tuple u = v.prev(dir);
+
+			Tuple ul = u.left(), vl = v.left();
+			if ( ca[ul.x][ul.y] == 0 && ca[vl.x][vl.y] == 0 ) {
+				ca[ul.x][ul.y] = 5;
+				ca[vl.x][vl.y] = 5;
+				longestPath.add(i,ul);
+				vl.dir = dir;
+				longestPath.add(i+1,vl);
+				longestPath.get(i+2).dir = Tuple.opposite(ul.dir);
+				continue;
+			}
+			
+			Tuple ur = u.right(), vr = v.right();
+			if ( ca[ur.x][ur.y] == 0 && ca[vr.x][vr.y] == 0 ) {
+				ca[ur.x][ur.y] = 5;
+				ca[vr.x][vr.y] = 5;
+				longestPath.add(i,ur);
+				vr.dir = dir;
+				longestPath.add(i+1,vr);
+				longestPath.get(i+2).dir = Tuple.opposite(ur.dir);
+			}
+
+			i++;
+		}
 
 		return longestPath;
 	}

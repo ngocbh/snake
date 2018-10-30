@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import com.gui.*;
 import com.ai.Utils;
 
-class Window extends JFrame{
+public class Window extends JFrame{
 	private static final long serialVersionUID = -2542001418764869760L;
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
 	public int width;

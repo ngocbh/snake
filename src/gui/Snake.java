@@ -30,8 +30,10 @@ public class Snake {
 
 	//Refresh the squares that needs to be 
 	public void moveExterne(){
+		// System.out.println("========positions========");
 		for(int i=0; i < positions.size(); i++) {
 		 	Tuple t = positions.get(i);
+		 	// t.print();
 		 	state[t.x][t.y] = 2;
 		}
 	}
