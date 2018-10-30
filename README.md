@@ -34,11 +34,12 @@ Snake have some option :
 Greedy Solver directs the snake to eat the food along the shortest path if it thinks the snake will be safe. Otherwise, it makes the snake wander around until a safe path can be found. As it needs paths searching, it depends on Path Solver
 Concretely, to find the snake S1's next moving direction D, the solver follows the steps below:
 
-Compute the shortest path P1 from S1's head to the food. If P1 exists, go to step 2. Otherwise, go to step 4.
-Move a virtual snake S2 (the same as S1) to eat the food along path P1.
-Compute the longest path P2 from S2's head to its tail. If P2 exists, let D be the first direction in path P1. Otherwise, go to step 4.
-Compute the longest path P3 from S1's head to its tail. If P3 exists, let D be the first direction in path P3. Otherwise, go to step 5.
-Let D be the direction that makes S1 the farthest from the food.
+1. Compute the shortest path P1 from S1's head to the food. If P1 exists, go to step 2. Otherwise, go to step 4.
+2. Move a virtual snake S2 (the same as S1) to eat the food along path P1.
+3. Compute the longest path P2 from S2's head to its tail. If P2 exists, let D be the first direction in path P1. Otherwise, go to step 4.
+4. Compute the longest path P3 from S1's head to its tail. If P3 exists, let D be the first direction in path P3. Otherwise, go to step 5.
+5. Let D be the direction that makes S1 the farthest from the food.
+6. If snake cannot find the food. it wander in its space
 Sources : [chuyangliu](https://github.com/chuyangliu/Snake)
 
 * Find shortest path
