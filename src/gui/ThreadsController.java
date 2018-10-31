@@ -107,6 +107,8 @@ public class ThreadsController extends Thread {
 		 			freeSquares.add(new Tuple(i,j));
 		
 
+		if ( freeSquares.size() == 0 ) stopTheGame();
+		
 		int ranVal= 0 + (int)(Math.random()*(freeSquares.size()-1)); 
 		return freeSquares.get(ranVal);
 	}

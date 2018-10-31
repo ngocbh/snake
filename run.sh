@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ./build.sh;
-java -classpath bin com.gui.Main -width 20 -height 20 -speed 20 -algorithm 4;
+java -classpath bin com.gui.Main -width 10 -height 10 -speed 50 -algorithm 4;

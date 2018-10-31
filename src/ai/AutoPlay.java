@@ -107,7 +107,7 @@ public class AutoPlay {
 		//step 4
 		longestPath = Utils.findLongestPath(snake.state,hx,hy,snake.tailSnakePos.x,snake.tailSnakePos.y);
 
-		if (longestPath.size() > 1) {
+		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
 			// System.out.println("=======step 4========");
 			return direct.dir;
@@ -115,7 +115,7 @@ public class AutoPlay {
 
 		//step 5
 		longestPath = Utils.findLongestPath(snake.state,hx,hy,foodPos.x,foodPos.y);
-		if (longestPath.size() > 1) {
+		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
 			// System.out.println("=======step 5========");
 			return direct.dir;
@@ -206,7 +206,7 @@ public class AutoPlay {
 
 		//step 4
 		longestPath = Utils.findLongestPath_a_star(snake.state,hx,hy,snake.tailSnakePos.x,snake.tailSnakePos.y);
-		if (longestPath.size() > 1) {
+		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
 			// System.out.println("=======step 4========");
 			return direct.dir;
@@ -214,7 +214,7 @@ public class AutoPlay {
 
 		//step 5
 		longestPath = Utils.findLongestPath_a_star(snake.state,hx,hy,foodPos.x,foodPos.y);
-		if (longestPath.size() > 1) {
+		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
 			// System.out.println("=======step 5========");
 			return direct.dir;
