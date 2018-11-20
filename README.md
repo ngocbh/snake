@@ -6,7 +6,7 @@ Snake have some option :
 * use AI  to autoplay snake
 
 ### How it looks:
-![alt tag](http://i66.tinypic.com/53jx1y.png)
+![alt tag](https://raw.githubusercontent.com/ngocjr7/snake/master/sample.png)
 
 ### How to run the project:
 
