@@ -50,6 +50,12 @@ Concretely, to find the snake S1's next moving direction D, the solver follows t
 * Find longest path: It extend the shortest path to left and right whenever it can.
 
 ### Some thing uncompleted
-* Tạo nút reset cho game
-* Thêm bảng đánh giá từng thuật toán một
-* Có một thuật toán nữa là tìm một chu trình qua tất cả các ô. Thuật toán này sẽ đảm bảo luôn điền đầy bảng nhưng chả có gì hay cả. Nếu ai thích thì có thể code. ko quá khó.  
+* Đã xử lý trường hợp con rắn chạy vòng lặp vô hạn
+* Thái chiều về clone file git này về. import vào netbean. Nhớ giữ đúng cấu trúc file như này. giữ lại các file run, test.sh này nọ, chỉ thêm các file cần có để import netbean. mục đích để có thể vừa import vào netbean được vừa chạy console được. 
+* Các việc còn lại Thái Linh Văn chia nhau ra làm :
+
+* Tạo một panel bên phải window chạy rắn. chứa 1 rút reset và 1 panel chứa điểm.
+* Chạy một thuật toán nhiều lần ( Khoảng 60-100 lần gì đó ) tính trung bình kết quả ra. Nếu show vào được cái panel bên trái thì tốt còn không thì show vào text hoặc table như Văn làm cũng đc. 
+* Tất cả các file mới tạo vứt vào thư mục src/evaluator , kể cả file txt.
+* Có sẵn file evalutor.py rồi. vẽ ra các trường hợp tường để test với từng thuật toán ( A* và BFS thôi ). Quay video màn hình lại đoạn chạy đó để show vào slide. 
+* đọc github https://github.com/chuyangliu/Snake để rõ thuật toán sử dụng rồi viết báo cáo. thuật toán t sử dụng từ đó.
