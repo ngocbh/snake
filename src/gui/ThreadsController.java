@@ -12,6 +12,10 @@ public class ThreadsController extends Thread {
 	long speed = 20;
 	public boolean autoPlay;
 	public int algorithm = 4;
+	int height;
+	int width;
+	int step = 0;
+	boolean colision = false;
 	Tuple foodPosition;
 	Snake snake;
 	AutoPlay autobot = new AutoPlay();
@@ -21,7 +25,10 @@ public class ThreadsController extends Thread {
 		autoPlay = auto;
 		speed = spd;
 		snake = new Snake();
+
 		Squares = Window.Grid;
+		height = Squares.size();
+		width = Squares.get(0).size();
 
 		snake.headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
 		snake.tailSnakePos=new Tuple(positionDepart.x,positionDepart.y);
@@ -42,18 +49,25 @@ public class ThreadsController extends Thread {
 		 	// System.out.println("-----ROUND---------");
 		 	// System.out.println("-----Move Interne---------");
 			snake.moveInterne(snake.directionSnake);
+			// System.out.println("-----Move Externe---------");
 			snake.moveExterne();
 			// System.out.println("-----Check Collision---------");
-			checkCollision();
-			// System.out.println("-----Move Externe---------");
+			colision = checkCollision();
 			// snake.moveExterne();
 			showSnake(snake);
 			// System.out.println("-----Delete Tail---------");
 			snake.deleteTail();
-			pauser();
+
+			if (colision == true) {
+				stopTheGame();
+			}
+			else
+				pauser();
 			// System.out.println("-----AI-Snake---------");
 			if ( autoPlay ) autoPlaySnake();
 			// return;
+			++step;
+			// System.out.printf("%d\n",step);
 		}
 	}
 	 
@@ -67,12 +81,15 @@ public class ThreadsController extends Thread {
 	}
 	 
 	//Checking if the snake bites itself or is eating
-	private void checkCollision() {
+	private boolean checkCollision() {
 		Tuple posCritique = snake.positions.get(snake.positions.size()-1);
+
+		if ( step > 2*(height * width) )
+	 		return true;
 
 		int hx = snake.headSnakePos.getX(), hy = snake.headSnakePos.getY();
 		if ( Squares.get(hx).get(hy).obj > 1 ) {
-		 	stopTheGame();
+	 		stopTheGame();
 		}
 		 
 		boolean eatingFood = posCritique.getX()==foodPosition.x && posCritique.getY()==foodPosition.y;
@@ -82,7 +99,9 @@ public class ThreadsController extends Thread {
 			 	foodPosition = getValAleaNotInSnake();
 
 			spawnFood(foodPosition);	
+			step = 0;
 		}
+		return false;
 	}
 	 
 	//Stops The Game
@@ -107,7 +126,10 @@ public class ThreadsController extends Thread {
 		 			freeSquares.add(new Tuple(i,j));
 		
 
-		if ( freeSquares.size() == 0 ) stopTheGame();
+		if ( freeSquares.size() == 0 ) {
+			colision = true;
+			return new Tuple(0,0);
+		}
 		
 		int ranVal= 0 + (int)(Math.random()*(freeSquares.size()-1)); 
 		return freeSquares.get(ranVal);

@@ -9,6 +9,7 @@ import com.gui.*;
 public class Snake {
 	public Tuple headSnakePos;
 	public Tuple tailSnakePos;
+	public Tuple prevTail;
 	public int sizeSnake=1;
 	public int directionSnake;
 	public ArrayList<Tuple> positions = new ArrayList<Tuple>();
@@ -42,15 +43,23 @@ public class Snake {
 	//and refreshing the display of the things that is removed
 	public void deleteTail(){
 		int cmpt = sizeSnake;
+		boolean deleted = false;
 		for(int i = positions.size()-1;i>=0;i--){
 			if(cmpt==0){
 			 	// System.out.printf("%d %d\n",positions.get(i).getX() , positions.get(i).getY());
 			 	Tuple t = positions.get(i);
 			 	state[t.x][t.y] = 0;
+			 	if (deleted == false) {
+			 		prevTail = positions.get(i);
+			 		deleted = true;
+			 	}
 				positions.remove(i);
 			}
 			else{
-				if ( cmpt == 1 ) tailSnakePos = positions.get(i);
+				if ( cmpt == 1 ) {
+					tailSnakePos = positions.get(i);
+					prevTail = positions.get(i);
+				}
 				cmpt--;
 			}
 		}

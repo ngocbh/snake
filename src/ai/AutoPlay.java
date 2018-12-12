@@ -32,6 +32,7 @@ public class AutoPlay {
 		Snake res = new Snake();
 		res.headSnakePos = new Tuple(snake.headSnakePos.x,snake.headSnakePos.y);
 		res.tailSnakePos = new Tuple(snake.tailSnakePos.x,snake.tailSnakePos.y);
+		res.prevTail = new Tuple(snake.prevTail.x,snake.prevTail.y);
 		res.sizeSnake = snake.sizeSnake;
 		res.directionSnake = snake.directionSnake;
 		res.positions = (ArrayList<Tuple>) snake.positions.clone();
@@ -93,9 +94,9 @@ public class AutoPlay {
 			}
 
 			//step 3
-			longestPath = Utils.findLongestPath(virtualSnake.state,virtualSnake.headSnakePos.x,virtualSnake.headSnakePos.y,virtualSnake.tailSnakePos.x,virtualSnake.tailSnakePos.y);
+			longestPath = Utils.findLongestPath(virtualSnake.state,virtualSnake.headSnakePos.x,virtualSnake.headSnakePos.y,virtualSnake.prevTail.x,virtualSnake.prevTail.y);
 
-			if ( longestPath.size() > 1 || ( virtualSnake.sizeSnake < 3 ) ) {
+			if ( longestPath.size() > 0 || ( virtualSnake.sizeSnake < 2 ) ) {
 				// path = (LinkedList<Tuple>) shortestPath.clone();
 				// Tuple direct = path.remove();
 				// System.out.println("=======step 3========");
@@ -105,7 +106,7 @@ public class AutoPlay {
 		}
 
 		//step 4
-		longestPath = Utils.findLongestPath(snake.state,hx,hy,snake.tailSnakePos.x,snake.tailSnakePos.y);
+		longestPath = Utils.findLongestPath(snake.state,hx,hy,snake.prevTail.x,snake.prevTail.y);
 
 		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
@@ -179,6 +180,7 @@ public class AutoPlay {
 
 		//step 2
 		if ( shortestPath.size() > 0 ) {
+
 			Snake virtualSnake = cloneSnake(snake);
 			virtualSnake.sizeSnake += 1;
 			// //virtual run 
@@ -191,9 +193,9 @@ public class AutoPlay {
 			}
 
 			//step 3
-			longestPath = Utils.findLongestPath_a_star(virtualSnake.state,virtualSnake.headSnakePos.x,virtualSnake.headSnakePos.y,virtualSnake.tailSnakePos.x,virtualSnake.tailSnakePos.y);
+			longestPath = Utils.findLongestPath_a_star(virtualSnake.state,virtualSnake.headSnakePos.x,virtualSnake.headSnakePos.y,virtualSnake.prevTail.x,virtualSnake.prevTail.y);
 
-			if ( longestPath.size() > 1 || virtualSnake.sizeSnake <= 2 ) {
+			if ( longestPath.size() > 0 || virtualSnake.sizeSnake <= 2 ) {
 				// path = (LinkedList<Tuple>) shortestPath.clone();
 				// Tuple direct = path.remove();
 				// System.out.println("=======step 3 ========");
@@ -205,7 +207,7 @@ public class AutoPlay {
 		}
 
 		//step 4
-		longestPath = Utils.findLongestPath_a_star(snake.state,hx,hy,snake.tailSnakePos.x,snake.tailSnakePos.y);
+		longestPath = Utils.findLongestPath_a_star(snake.state,hx,hy,snake.prevTail.x,snake.prevTail.y);
 		if (longestPath.size() > 0) {
 			Tuple direct = longestPath.remove();
 			// System.out.println("=======step 4========");
@@ -223,9 +225,9 @@ public class AutoPlay {
 		//step 6 : Wander 1
 		// System.out.println("=======step 6========");
 		if ( hx > 1 &&  snake.state[hx-2][hy] < 2 && snake.state[hx-1][hy] < 2 ) return 3;
-		if ( hx < snake.state.length-1 &&  snake.state[hx+2][hy] < 2 && snake.state[hx+1][hy] < 2 ) return 4;
+		if ( hx < snake.state.length-2 &&  snake.state[hx+2][hy] < 2 && snake.state[hx+1][hy] < 2 ) return 4;
 		if ( hy > 1 &&  snake.state[hx][hy-2] < 2 && snake.state[hx][hy-1] < 2 ) return 2;
-		if ( hy < snake.state[0].length-1 &&  snake.state[hx][hy+2] < 2 &&snake.state[hx][hy+1] < 2 ) return 1;
+		if ( hy < snake.state[0].length-2 &&  snake.state[hx][hy+2] < 2 &&snake.state[hx][hy+1] < 2 ) return 1;
 
 		//step 7 : Wander 2
 		// System.out.println("=======step 7========");

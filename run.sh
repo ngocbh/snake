@@ -1,4 +1,8 @@
 #!/bin/bash
-
 ./build.sh;
-java -classpath bin com.gui.Main -width 30 -height 30 -speed 50 -algorithm 4;
+if [ $? -ne 0 ]
+then
+    echo "Error???"
+    exit
+fi
+java -classpath bin com.gui.Main -width 8 -height 8 -speed 50 -algorithm 4;

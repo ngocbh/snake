@@ -200,7 +200,9 @@ public class Utils {
 		LinkedList<Tuple> longestPath = findShortestPath_a_star(state,sx,sy,dx,dy);
 		int[][] ca = copyArray(state);
 
-		if ( longestPath.size() == 0 ) return longestPath;
+		if ( longestPath.size() == 0 ) {
+			return longestPath;
+		}
 
 		for (int i = 0; i < longestPath.size(); i++) {
 			ca[longestPath.get(i).x][longestPath.get(i).y] = 5;
