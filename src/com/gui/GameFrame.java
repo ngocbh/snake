@@ -9,10 +9,10 @@ import javax.swing.JFrame;
 
 import com.gui.*;
 
-class GameFrame extends JFrame {
+public class GameFrame extends JFrame {
 	private static final long serialVersionUID = -2542001418764869760L;
 
-	public GameFrame(int width,int height,long speed,int algorithm) {
+	public GameFrame(int width,int height,long speed,int algorithm, int numOR) {
 		//Creating the window with all its awesome snaky features
 		
 		Window window = new Window(width,height,speed);
@@ -26,7 +26,7 @@ class GameFrame extends JFrame {
 		// initial position of the snake
 		Tuple position1 = new Tuple(2,4);
 		// passing this value to the controller
-		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1);
+		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1,numOR,this);
 		threadControllerPlayer1.algorithm = algorithm;
 		//Let's start the game now..
 		threadControllerPlayer1.start();

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import com.ai.AutoPlay;
 import com.ai.Utils;
+import com.evaluator.IOFile;
+import com.evaluator.Reset;
 import com.gui.*;
+import javax.swing.JFrame;
 
 //Controls all the game logic .. most important class in this project.
 public class ThreadsController extends Thread {
@@ -14,16 +17,25 @@ public class ThreadsController extends Thread {
 	public int algorithm = 4;
 	int height;
 	int width;
+        int score;
 	int step = 0;
+        int steps = -1;
+        int numOR, currentNumOR;
+        long startTime, endTime, time;
+        String urlFile;
+        public IOFile file = new IOFile();
+        GameFrame gameFr;
 	boolean colision = false;
 	Tuple foodPosition;
 	Snake snake;
 	AutoPlay autobot = new AutoPlay();
 	//Constructor of ControlleurThread 
-	ThreadsController(boolean auto,long spd,Tuple positionDepart){
+	ThreadsController(boolean auto,long spd,Tuple positionDepart, int num, GameFrame gameFr){
 		//Get all the threads
 		autoPlay = auto;
 		speed = spd;
+                numOR = num;
+                this.gameFr = gameFr;
 		snake = new Snake();
 
 		Squares = Window.Grid;
@@ -32,7 +44,7 @@ public class ThreadsController extends Thread {
 
 		snake.headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
 		snake.tailSnakePos=new Tuple(positionDepart.x,positionDepart.y);
-		snake.directionSnake = 1;
+		snake.directionSnake = 3;
 
 		//!!! Pointer !!!!
 		Tuple headPos = new Tuple(snake.headSnakePos.getX(),snake.headSnakePos.getY());
@@ -45,7 +57,11 @@ public class ThreadsController extends Thread {
 	 
 	//Important part :
 	public void run() {
+                startTime = System.currentTimeMillis();
+
 		while(true){
+                        steps++;
+
 		 	// System.out.println("-----ROUND---------");
 		 	// System.out.println("-----Move Interne---------");
 			snake.moveInterne(snake.directionSnake);
@@ -94,7 +110,7 @@ public class ThreadsController extends Thread {
 		 
 		boolean eatingFood = posCritique.getX()==foodPosition.x && posCritique.getY()==foodPosition.y;
 		if(eatingFood){
-			System.out.println("Yummy!");
+//			System.out.println("Yummy!");
 			snake.sizeSnake=snake.sizeSnake+1;
 			 	foodPosition = getValAleaNotInSnake();
 
@@ -106,10 +122,49 @@ public class ThreadsController extends Thread {
 	 
 	//Stops The Game
 	private void stopTheGame(){
+                endTime = System.currentTimeMillis();
+                time = endTime - startTime;
+
+                switch(algorithm) {
+                    case 1: urlFile = "C:/Users/Admin/Documents/NetBeansProjects/snake/src/com/evaluator/data1.txt"; break;
+                    case 2: urlFile = "C:/Users/Admin/Documents/NetBeansProjects/snake/src/com/evaluator/data2.txt"; break;
+                    case 3: urlFile = "C:/Users/Admin/Documents/NetBeansProjects/snake/src/com/evaluator/data3.txt"; break;
+                    case 4: urlFile = "C:/Users/Admin/Documents/NetBeansProjects/snake/src/com/evaluator/data4.txt"; break;
+                }
+                currentNumOR = Integer.parseInt(file.ReadNumOR(urlFile)) + 1;
+                System.out.println((snake.sizeSnake-1) + " " + time + " " + steps);
+                if(currentNumOR > 1) {
+                    score = ((snake.sizeSnake-1) + Integer.parseInt(file.ReadScore(urlFile))*(currentNumOR-1))/currentNumOR;
+                    time = (time + Integer.parseInt(file.ReadTime(urlFile))*(currentNumOR-1))/currentNumOR;
+                    steps = (steps + Integer.parseInt(file.ReadStep(urlFile))*(currentNumOR-1))/currentNumOR;
+                    file.Write(currentNumOR, score, time, steps, urlFile);
+                }
+                else
+                    file.Write(currentNumOR, snake.sizeSnake-1, time, steps, urlFile);
+                if(currentNumOR < numOR) {
+                    gameFr.dispose();
+                    GameFrame gameFrame = new GameFrame(width,height,speed,algorithm,numOR);
+
+                    //Setting up the window settings
+                    gameFrame.setTitle("Snake");
+                    gameFrame.setSize(46*height, 43*width);
+                    gameFrame.setLocationRelativeTo(null);
+                    gameFrame.setVisible(true);
+                    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+                }
+                else {
+                    Reset reset = new Reset(algorithm,numOR,urlFile,gameFr);
+                    reset.width = width;
+                    reset.height = height;
+                    reset.speed = speed;
+                    reset.urlFile = urlFile;
+                    reset.setVisible(true);
+                }
 		System.out.println("COLISION! \n");
 		while(true){
 			pauser();
 		}
+                
 	}
 	 
 	//Put food in a position and displays it
