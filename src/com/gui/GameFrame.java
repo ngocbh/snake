@@ -1,5 +1,6 @@
 package com.gui;
 
+import com.evaluator.Option;
 import java.awt.GridLayout;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ class GameFrame extends JFrame {
 		getContentPane().setBackground(Color.white);
 		getContentPane().add(window);
                 
+                Option ot = new Option();
+                ot.setVisible(true);
                 
 		//--------------------------------------------------------------
 		// Add Player 1

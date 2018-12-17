@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 public class Main {
 	static int width = 20;
 	static int height = 20;
-	static long speed = 50;
+	static long speed = 1;
 
 	//1 : BFS Proposal | 2 : Greedy base on BFS  | 3 : A star Proposal | 4 : Greedy base on A star
 	public static int algorithm = 1;
