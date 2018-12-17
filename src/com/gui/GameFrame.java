@@ -9,27 +9,35 @@ import javax.swing.JFrame;
 
 import com.gui.*;
 
-public class GameFrame extends JFrame {
+class GameFrame extends JFrame {
 	private static final long serialVersionUID = -2542001418764869760L;
-
-	public GameFrame(int width,int height,long speed,int algorithm, int numOR) {
+        Window window;
+        int width, height, algorithm;
+        long speed;
+	public GameFrame(int width,int height,long speed,int algorithm) {
 		//Creating the window with all its awesome snaky features
-		
-		Window window = new Window(width,height,speed);
+		this.width = width;
+                this.height = height;
+                this.speed = speed;
+                this.algorithm = algorithm;
+		window = new Window(width, height,speed, algorithm, this);
 		
 		getContentPane().setLayout(new GridLayout(1,1,0,0));
 		getContentPane().setBackground(Color.white);
 		getContentPane().add(window);
+                
+                
 		//--------------------------------------------------------------
 		// Add Player 1
 		//--------------------------------------------------------------
 		// initial position of the snake
-		Tuple position1 = new Tuple(2,4);
-		// passing this value to the controller
-		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1,numOR,this);
-		threadControllerPlayer1.algorithm = algorithm;
-		//Let's start the game now..
-		threadControllerPlayer1.start();
+//		Tuple position1 = new Tuple(10,10);
+//		// passing this value to the controller
+//		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1);
+//		threadControllerPlayer1.algorithm = algorithm;
+//		//Let's start the game now..
+//		threadControllerPlayer1.start();
+                
 		// Links the window to the keyboardlistenner.
 		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer1));
 
@@ -47,4 +55,15 @@ public class GameFrame extends JFrame {
 		// f1.addKeyListener((KeyListener) new KeyboardListener(threadControllerPlayer2));
 		     
 	}
+        
+        public void restart(Window win) {
+            win.invalidate();
+            win.setVisible(false);
+            win.removeAll();
+            getContentPane().remove(win);
+            win = null;
+            getContentPane().add(new Window(width,height,speed,algorithm,this));
+            invalidate();
+            validate();
+        }
 }

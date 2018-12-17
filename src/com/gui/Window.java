@@ -15,13 +15,11 @@ public class Window extends JPanel {
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
 	public int width;
 	public int height;
-	public long speed = 20; 
 
-	public Window(int width,int height,long spd){
+	public Window(int width,int height,long speed, int alg, GameFrame gameFrame){
 		
 		this.width = width;
 		this.height = height;
-		this.speed = spd;
 		// Creates the arraylist that'll contain the threads
 		Grid = new ArrayList<ArrayList<DataOfSquare>>();
 		ArrayList<DataOfSquare> data;
@@ -46,7 +44,11 @@ public class Window extends JPanel {
 				this.add(Grid.get(i).get(j));
 			}
 		}
-		
+                
+                Tuple position1 = new Tuple(10,10);
+		ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1,gameFrame,this);
+		threadControllerPlayer1.algorithm = alg;
+		threadControllerPlayer1.start();
 	}
 
 	public static int[][] convertSimpleGrid(ArrayList<ArrayList<DataOfSquare>> squares) {
