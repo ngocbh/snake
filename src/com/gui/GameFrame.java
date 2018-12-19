@@ -67,7 +67,7 @@ public class GameFrame extends javax.swing.JFrame {
         jLabel4.setText("Last Run");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {num, score, time, step}
+                {num, score + "/324", time, step}
             },
             new String [] {
                 "Number Of Run", "Score", "Time(ms)", "Step"
@@ -79,10 +79,10 @@ public class GameFrame extends javax.swing.JFrame {
         jLabel5.setText("Result");
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"BFS Proposal", file.ReadNumOR(urlFile1), file.ReadScore(urlFile1), file.ReadTime(urlFile1), file.ReadStep(urlFile1)},
-                {"Greedy base on BFS", file.ReadNumOR(urlFile2), file.ReadScore(urlFile2), file.ReadTime(urlFile2), file.ReadStep(urlFile2)},
-                {"A star Proposal", file.ReadNumOR(urlFile3), file.ReadScore(urlFile3), file.ReadTime(urlFile3), file.ReadStep(urlFile3)},
-                {"Greedy base on A star", file.ReadNumOR(urlFile4), file.ReadScore(urlFile4), file.ReadTime(urlFile4), file.ReadStep(urlFile4)}
+                {"BFS Proposal", file.ReadNumOR(urlFile1), file.ReadScore(urlFile1) + "/324", file.ReadTime(urlFile1), file.ReadStep(urlFile1)},
+                {"Greedy base on BFS", file.ReadNumOR(urlFile2), file.ReadScore(urlFile2) + "/324", file.ReadTime(urlFile2), file.ReadStep(urlFile2)},
+                {"A star Proposal", file.ReadNumOR(urlFile3), file.ReadScore(urlFile3) + "/324", file.ReadTime(urlFile3), file.ReadStep(urlFile3)},
+                {"Greedy base on A star", file.ReadNumOR(urlFile4), file.ReadScore(urlFile4) + "/324", file.ReadTime(urlFile4), file.ReadStep(urlFile4)}
             },
             new String [] {
                 "Algorithm", "Numbers of run", "Score", "Time(ms)", "Step"

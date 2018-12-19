@@ -85,7 +85,7 @@ public class ThreadsController extends Thread {
 			else
 				pauser();
 			// System.out.println("-----AI-Snake---------");
-                        steps = step + 1;
+                        steps = steps + 1;
 			if ( autoPlay ) autoPlaySnake();
 			// return;
 			++step;
