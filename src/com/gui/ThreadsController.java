@@ -29,12 +29,19 @@ public class ThreadsController extends Thread {
         IOFile file = new IOFile();
         int score;
 	//Constructor of ControlleurThread 
-	ThreadsController(boolean auto,long spd,Tuple positionDepart, GameFrame gameFr, Window win, int num){
+	ThreadsController(boolean auto,long spd,Tuple positionDepart, GameFrame gameFr, Window win, int num, int alg){
 		//Get all the threads
 		autoPlay = auto;
 		speed = spd;
                 gameFrame = gameFr;
                 window = win;
+                algorithm = alg;
+                switch(algorithm) {
+                    case 1: urlFile = "./src/com/evaluator/data1.txt"; break;
+                    case 2: urlFile = "./src/com/evaluator/data2.txt"; break;
+                    case 3: urlFile = "./src/com/evaluator/data3.txt"; break;
+                    case 4: urlFile = "./src/com/evaluator/data4.txt"; break;
+                }
                 numOR = num;
 		snake = new Snake();
 
@@ -122,12 +129,6 @@ public class ThreadsController extends Thread {
 	private void stopTheGame(){
                 endTime = System.currentTimeMillis();
                 time = endTime - startTime;
-                switch(algorithm) {
-                    case 1: urlFile = "./src/com/evaluator/data1.txt"; break;
-                    case 2: urlFile = "./src/com/evaluator/data2.txt"; break;
-                    case 3: urlFile = "./src/com/evaluator/data3.txt"; break;
-                    case 4: urlFile = "./src/com/evaluator/data4.txt"; break;
-                }
                 currentNumOR = Integer.parseInt(file.ReadNumOR(urlFile)) + 1;
                 gameFrame.showCurrentAct(currentNumOR,snake.sizeSnake-1,time,steps);
                 System.out.println(currentNumOR + " " + (snake.sizeSnake-1) + " " + time + " " +steps);

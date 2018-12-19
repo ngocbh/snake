@@ -22,8 +22,9 @@ public class GameFrame extends javax.swing.JFrame {
     
     int width, height, algorithm, numOR;
     long speed;
-    Window window;
+    Window window, win2;
     public IOFile file = new IOFile();
+    String urlFile;
     String urlFile1 = "./src/com/evaluator/data1.txt";
     String urlFile2 = "./src/com/evaluator/data2.txt";
     String urlFile3 = "./src/com/evaluator/data3.txt";
@@ -48,9 +49,9 @@ public class GameFrame extends javax.swing.JFrame {
         win.removeAll();
         getContentPane().remove(win);
         win = null;
-        win = new Window(width, height, spd, alg, this,num);
-        win.startThread();
-        getContentPane().add(win);
+        win2 = new Window(width, height, spd, alg, this,num);
+        win2.startThread();
+        getContentPane().add(win2);
         invalidate();
         validate();
     }
@@ -258,16 +259,15 @@ public class GameFrame extends javax.swing.JFrame {
 
     private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
         // TODO add your handling code here:
-        
         String alg = jComboBox1.getSelectedItem().toString();
         switch(alg) {
-            case "BFS Proposal": algorithm = 1; break;
-            case "Greedy base on BFS": algorithm = 2; break;
-            case "A star Proposal": algorithm = 3; break;
-            case "Greedy base on A star": algorithm = 4; break;
+            case "BFS Proposal": algorithm = 1; urlFile = urlFile1; break;
+            case "Greedy base on BFS": algorithm = 2; urlFile = urlFile2; break;
+            case "A star Proposal": algorithm = 3; urlFile = urlFile3; break;
+            case "Greedy base on A star": algorithm = 4; urlFile = urlFile4; break;
         }
         speed = Integer.parseInt(jTextField1.getText());
-        numOR = Integer.parseInt(jTextField2.getText());
+        numOR = Integer.parseInt(jTextField2.getText()) + Integer.parseInt(file.ReadNumOR(urlFile));
         restart(window,speed,algorithm,numOR);    
     }//GEN-LAST:event_startActionPerformed
 
@@ -289,18 +289,17 @@ public class GameFrame extends javax.swing.JFrame {
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         // TODO add your handling code here:
-        window.invalidate();
-        window.setVisible(false);
-        window.removeAll();
-        getContentPane().remove(window);
-        window = null;
-        window = new Window(width, height, 1, 1, this,1);
-        getContentPane().add(window);
-        
         file.Write(0, 0, 0, 0, urlFile1);
         file.Write(0, 0, 0, 0, urlFile2);
         file.Write(0, 0, 0, 0, urlFile3);
         file.Write(0, 0, 0, 0, urlFile4);
+        win2.invalidate();
+        win2.setVisible(false);
+        win2.removeAll();
+        getContentPane().remove(win2);
+        win2 = null;
+        window = new Window(width, height, 1, 1, this,1);
+        getContentPane().add(window);
         
         jLabel4.setText("By Nguyễn Ngọc Văn");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
