@@ -282,6 +282,9 @@ public class GameFrame extends javax.swing.JFrame {
         file.Write(0, 0, 0, 0, urlFile2);
         file.Write(0, 0, 0, 0, urlFile3);
         file.Write(0, 0, 0, 0, urlFile4);
+        jComboBox1.setSelectedIndex(0);
+        jTextField1.setText("1");
+        jTextField2.setText("1");
         window.invalidate();
         window.setVisible(false);
         window.removeAll();
