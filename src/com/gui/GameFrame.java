@@ -22,12 +22,12 @@ public class GameFrame extends javax.swing.JFrame {
     
     int width, height, algorithm, numOR;
     long speed;
-    Window window, win2;
+    Window window;
     public IOFile file = new IOFile();
-    String urlFile1 = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data1.txt";
-    String urlFile2 = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data2.txt";
-    String urlFile3 = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data3.txt";
-    String urlFile4 = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data4.txt";
+    String urlFile1 = "./src/com/evaluator/data1.txt";
+    String urlFile2 = "./src/com/evaluator/data2.txt";
+    String urlFile3 = "./src/com/evaluator/data3.txt";
+    String urlFile4 = "./src/com/evaluator/data4.txt";
     /**
      * Creates new form GameFrame
      */
@@ -48,13 +48,17 @@ public class GameFrame extends javax.swing.JFrame {
         win.removeAll();
         getContentPane().remove(win);
         win = null;
-        win2 = new Window(width, height, spd, alg, this,num);
-        win2.startThread();
-        getContentPane().add(win2);
+        win = new Window(width, height, spd, alg, this,num);
+        win.startThread();
+        getContentPane().add(win);
         invalidate();
         validate();
     }
    
+    public void getOldWindow(Window win) {
+        window = win;
+    }
+    
     public void showCurrentAct(int num, int score, long time, int step) {
         jLabel4.setText("Last Run");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -82,9 +86,9 @@ public class GameFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        start = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
+        done = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -110,27 +114,27 @@ public class GameFrame extends javax.swing.JFrame {
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jTextField2.setText("1");
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jButton1.setText("Start");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        start.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        start.setText("Start");
+        start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                startActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jButton2.setText("Reset");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        reset.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        reset.setText("Reset");
+        reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                resetActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jButton3.setText("Done");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        done.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        done.setText("Done");
+        done.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                doneActionPerformed(evt);
             }
         });
 
@@ -181,7 +185,7 @@ public class GameFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel1)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jButton1)
+                                .addComponent(start)
                                 .addGap(42, 42, 42)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -195,9 +199,9 @@ public class GameFrame extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButton2)
+                                        .addComponent(reset)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton3)
+                                        .addComponent(done)
                                         .addGap(18, 18, 18))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(193, 193, 193)
@@ -222,9 +226,9 @@ public class GameFrame extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(start)
+                    .addComponent(reset)
+                    .addComponent(done))
                 .addGap(72, 72, 72)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
@@ -252,21 +256,22 @@ public class GameFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
         // TODO add your handling code here:
+        
         String alg = jComboBox1.getSelectedItem().toString();
         switch(alg) {
-            case "BFS Proposal": algorithm = 1; file.Write(0, 0, 0, 0, urlFile1); break;
-            case "Greedy base on BFS": algorithm = 2; file.Write(0, 0, 0, 0, urlFile2); break;
-            case "A star Proposal": algorithm = 3; file.Write(0, 0, 0, 0, urlFile3); break;
-            case "Greedy base on A star": algorithm = 4; file.Write(0, 0, 0, 0, urlFile4); break;
+            case "BFS Proposal": algorithm = 1; break;
+            case "Greedy base on BFS": algorithm = 2; break;
+            case "A star Proposal": algorithm = 3; break;
+            case "Greedy base on A star": algorithm = 4; break;
         }
         speed = Integer.parseInt(jTextField1.getText());
         numOR = Integer.parseInt(jTextField2.getText());
         restart(window,speed,algorithm,numOR);    
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_startActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
         // TODO add your handling code here:
         jLabel5.setText("Result");
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -280,17 +285,22 @@ public class GameFrame extends javax.swing.JFrame {
                 "Algorithm", "Numbers of run", "Score", "Time(ms)", "Step"
             }
         ));
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_doneActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         // TODO add your handling code here:
-        win2.invalidate();
-        win2.setVisible(false);
-        win2.removeAll();
-        getContentPane().remove(win2);
-        win2 = null;
+        window.invalidate();
+        window.setVisible(false);
+        window.removeAll();
+        getContentPane().remove(window);
+        window = null;
         window = new Window(width, height, 1, 1, this,1);
         getContentPane().add(window);
+        
+        file.Write(0, 0, 0, 0, urlFile1);
+        file.Write(0, 0, 0, 0, urlFile2);
+        file.Write(0, 0, 0, 0, urlFile3);
+        file.Write(0, 0, 0, 0, urlFile4);
         
         jLabel4.setText("By Nguyễn Ngọc Văn");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -302,13 +312,11 @@ public class GameFrame extends javax.swing.JFrame {
             }
         ));
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_resetActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton done;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -322,5 +330,7 @@ public class GameFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton reset;
+    private javax.swing.JButton start;
     // End of variables declaration//GEN-END:variables
 }

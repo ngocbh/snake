@@ -123,10 +123,10 @@ public class ThreadsController extends Thread {
                 endTime = System.currentTimeMillis();
                 time = endTime - startTime;
                 switch(algorithm) {
-                    case 1: urlFile = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data1.txt"; break;
-                    case 2: urlFile = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data2.txt"; break;
-                    case 3: urlFile = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data3.txt"; break;
-                    case 4: urlFile = "C:/Users/Admin/Desktop/snake-master/src/com/evaluator/data4.txt"; break;
+                    case 1: urlFile = "./src/com/evaluator/data1.txt"; break;
+                    case 2: urlFile = "./src/com/evaluator/data2.txt"; break;
+                    case 3: urlFile = "./src/com/evaluator/data3.txt"; break;
+                    case 4: urlFile = "./src/com/evaluator/data4.txt"; break;
                 }
                 currentNumOR = Integer.parseInt(file.ReadNumOR(urlFile)) + 1;
                 gameFrame.showCurrentAct(currentNumOR,snake.sizeSnake-1,time,steps);
@@ -142,6 +142,8 @@ public class ThreadsController extends Thread {
                 
                 if(currentNumOR < numOR)
                     gameFrame.restart(window,speed,algorithm,numOR);
+                else
+                    gameFrame.getOldWindow(window);
 		System.out.println("COLISION! \n");
 		while(true){
 			pauser();
