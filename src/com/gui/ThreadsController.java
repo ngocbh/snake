@@ -141,10 +141,12 @@ public class ThreadsController extends Thread {
                 else
                     file.Write(currentNumOR, snake.sizeSnake-1, time, steps, urlFile);
                 
-                if(currentNumOR < numOR)
+                if(currentNumOR < numOR) {
                     gameFrame.restart(window,speed,algorithm,numOR);
+                }
                 else
-                    gameFrame.getOldWindow(window);
+                    gameFrame.getOldWindow();
+                gameFrame.showResult();
 		System.out.println("COLISION! \n");
 		while(true){
 			pauser();

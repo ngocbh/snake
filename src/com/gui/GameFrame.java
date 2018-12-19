@@ -41,6 +41,7 @@ public class GameFrame extends javax.swing.JFrame {
         window = new Window(width, height, 1, 1, this,1);
         getContentPane().setLayout(new FlowLayout());
         getContentPane().add(window);
+        showResult();
     }
 
     public void restart(Window win, long spd, int alg, int num) {
@@ -56,8 +57,10 @@ public class GameFrame extends javax.swing.JFrame {
         validate();
     }
    
-    public void getOldWindow(Window win) {
-        window = win;
+    public void getOldWindow() {
+        window = win2;
+        start.setEnabled(true);
+        reset.setEnabled(true);
     }
     
     public void showCurrentAct(int num, int score, long time, int step) {
@@ -68,6 +71,21 @@ public class GameFrame extends javax.swing.JFrame {
             },
             new String [] {
                 "Number Of Run", "Score", "Time(ms)", "Step"
+            }
+        ));
+    }
+    
+    public void showResult() {
+        jLabel5.setText("Result");
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"BFS Proposal", file.ReadNumOR(urlFile1), file.ReadScore(urlFile1), file.ReadTime(urlFile1), file.ReadStep(urlFile1)},
+                {"Greedy base on BFS", file.ReadNumOR(urlFile2), file.ReadScore(urlFile2), file.ReadTime(urlFile2), file.ReadStep(urlFile2)},
+                {"A star Proposal", file.ReadNumOR(urlFile3), file.ReadScore(urlFile3), file.ReadTime(urlFile3), file.ReadStep(urlFile3)},
+                {"Greedy base on A star", file.ReadNumOR(urlFile4), file.ReadScore(urlFile4), file.ReadTime(urlFile4), file.ReadStep(urlFile4)}
+            },
+            new String [] {
+                "Algorithm", "Numbers of run", "Score", "Time(ms)", "Step"
             }
         ));
     }
@@ -89,7 +107,6 @@ public class GameFrame extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         start = new javax.swing.JButton();
         reset = new javax.swing.JButton();
-        done = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -104,7 +121,7 @@ public class GameFrame extends javax.swing.JFrame {
         jLabel1.setText("Algorithm:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Speed:");
+        jLabel2.setText("Delay:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Num of run:");
@@ -131,14 +148,6 @@ public class GameFrame extends javax.swing.JFrame {
             }
         });
 
-        done.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        done.setText("Done");
-        done.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                doneActionPerformed(evt);
-            }
-        });
-
         jTable1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,7 +171,7 @@ public class GameFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("By Nguyễn Ngọc Văn");
+        jLabel4.setText("Snake + A*");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
@@ -177,18 +186,13 @@ public class GameFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(start)
-                                .addGap(42, 42, 42)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGap(87, 87, 87)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(start))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -196,14 +200,14 @@ public class GameFrame extends javax.swing.JFrame {
                                     .addComponent(jTextField1)
                                     .addComponent(jTextField2)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(reset)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(done)
-                                        .addGap(18, 18, 18))))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(17, 17, 17)
+                                        .addComponent(jLabel4))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(80, 80, 80)
+                                        .addComponent(reset)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(193, 193, 193)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -228,8 +232,7 @@ public class GameFrame extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(start)
-                    .addComponent(reset)
-                    .addComponent(done))
+                    .addComponent(reset))
                 .addGap(72, 72, 72)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
@@ -268,24 +271,10 @@ public class GameFrame extends javax.swing.JFrame {
         }
         speed = Integer.parseInt(jTextField1.getText());
         numOR = Integer.parseInt(jTextField2.getText()) + Integer.parseInt(file.ReadNumOR(urlFile));
-        restart(window,speed,algorithm,numOR);    
+        restart(window,speed,algorithm,numOR);
+        start.setEnabled(false);
+        reset.setEnabled(false);
     }//GEN-LAST:event_startActionPerformed
-
-    private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
-        // TODO add your handling code here:
-        jLabel5.setText("Result");
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"BFS Proposal", file.ReadNumOR(urlFile1), file.ReadScore(urlFile1), file.ReadTime(urlFile1), file.ReadStep(urlFile1)},
-                {"Greedy base on BFS", file.ReadNumOR(urlFile2), file.ReadScore(urlFile2), file.ReadTime(urlFile2), file.ReadStep(urlFile2)},
-                {"A star Proposal", file.ReadNumOR(urlFile3), file.ReadScore(urlFile3), file.ReadTime(urlFile3), file.ReadStep(urlFile3)},
-                {"Greedy base on A star", file.ReadNumOR(urlFile4), file.ReadScore(urlFile4), file.ReadTime(urlFile4), file.ReadStep(urlFile4)}
-            },
-            new String [] {
-                "Algorithm", "Numbers of run", "Score", "Time(ms)", "Step"
-            }
-        ));
-    }//GEN-LAST:event_doneActionPerformed
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         // TODO add your handling code here:
@@ -301,7 +290,7 @@ public class GameFrame extends javax.swing.JFrame {
         window = new Window(width, height, 1, 1, this,1);
         getContentPane().add(window);
         
-        jLabel4.setText("By Nguyễn Ngọc Văn");
+        jLabel4.setText("Snake + A*");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {}
@@ -310,12 +299,11 @@ public class GameFrame extends javax.swing.JFrame {
                 
             }
         ));
-        
+        showResult();
     }//GEN-LAST:event_resetActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton done;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
