@@ -20,7 +20,7 @@ import java.io.IOException;
 public class IOFile {
     public String line;
     
-    public void Write(int numOR , int score, long time, long step, String urlFile) {
+    public void Write(int numOR , float score, double time, float step, String urlFile) {
 //                             điểm , thời gian, số bước đi
         try {
             File f = new File(urlFile);    

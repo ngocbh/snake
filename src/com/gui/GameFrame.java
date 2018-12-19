@@ -50,20 +50,20 @@ public class GameFrame extends javax.swing.JFrame {
         win.removeAll();
         getContentPane().remove(win);
         win = null;
-        win2 = new Window(width, height, spd, alg, this,num);
-        win2.startThread();
-        getContentPane().add(win2);
+        win = new Window(width, height, spd, alg, this,num);
+        win.startThread();
+        getContentPane().add(win);
         invalidate();
         validate();
     }
    
-    public void getOldWindow() {
-        window = win2;
+    public void getOldWindow(Window win) {
+        window = win;
         start.setEnabled(true);
         reset.setEnabled(true);
     }
     
-    public void showCurrentAct(int num, int score, long time, int step) {
+    public void showCurrentAct(int num, float score, double time, float step) {
         jLabel4.setText("Last Run");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -282,10 +282,10 @@ public class GameFrame extends javax.swing.JFrame {
         file.Write(0, 0, 0, 0, urlFile2);
         file.Write(0, 0, 0, 0, urlFile3);
         file.Write(0, 0, 0, 0, urlFile4);
-        win2.invalidate();
-        win2.setVisible(false);
-        win2.removeAll();
-        getContentPane().remove(win2);
+        window.invalidate();
+        window.setVisible(false);
+        window.removeAll();
+        getContentPane().remove(window);
         win2 = null;
         window = new Window(width, height, 1, 1, this,1);
         getContentPane().add(window);

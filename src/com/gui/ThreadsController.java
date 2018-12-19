@@ -23,11 +23,11 @@ public class ThreadsController extends Thread {
         GameFrame gameFrame;
         Window window;
         int numOR, currentNumOR;
-        long startTime, endTime, time;
-        int steps = -1;
+        double startTime, endTime, time;
+        float steps = -1;
         String urlFile;
         IOFile file = new IOFile();
-        int score;
+        float score;
 	//Constructor of ControlleurThread 
 	ThreadsController(boolean auto,long spd,Tuple positionDepart, GameFrame gameFr, Window win, int num, int alg){
 		//Get all the threads
@@ -85,7 +85,7 @@ public class ThreadsController extends Thread {
 			else
 				pauser();
 			// System.out.println("-----AI-Snake---------");
-                        steps++;
+                        steps = step + 1;
 			if ( autoPlay ) autoPlaySnake();
 			// return;
 			++step;
@@ -133,9 +133,9 @@ public class ThreadsController extends Thread {
                 gameFrame.showCurrentAct(currentNumOR,snake.sizeSnake-1,time,steps);
                 System.out.println(currentNumOR + " " + (snake.sizeSnake-1) + " " + time + " " +steps);
                 if(currentNumOR > 1) {
-                    score = ((snake.sizeSnake-1) + Integer.parseInt(file.ReadScore(urlFile))*(currentNumOR-1))/currentNumOR;
-                    time = (time + Long.parseLong(file.ReadTime(urlFile))*(currentNumOR-1))/currentNumOR;
-                    steps = (steps + Integer.parseInt(file.ReadStep(urlFile))*(currentNumOR-1))/currentNumOR;
+                    score = ((snake.sizeSnake-1) + Float.parseFloat(file.ReadScore(urlFile))*(currentNumOR-1))/currentNumOR;
+                    time = (time + Double.parseDouble(file.ReadTime(urlFile))*(currentNumOR-1))/currentNumOR;
+                    steps = (steps + Float.parseFloat(file.ReadStep(urlFile))*(currentNumOR-1))/currentNumOR;
                     file.Write(currentNumOR, score, time, steps, urlFile);
                 }
                 else
@@ -145,7 +145,7 @@ public class ThreadsController extends Thread {
                     gameFrame.restart(window,speed,algorithm,numOR);
                 }
                 else
-                    gameFrame.getOldWindow();
+                    gameFrame.getOldWindow(window);
                 gameFrame.showResult();
 		System.out.println("COLISION! \n");
 		while(true){
