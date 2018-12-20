@@ -51,7 +51,8 @@ public class GameFrame extends javax.swing.JFrame {
         getContentPane().remove(win);
         win = null;
         win = new Window(width, height, spd, alg, this,num);
-        win.startThread();
+        win.startThread(width/2,height/2,spd,true,alg);
+        // win.startThread(2,2,spd,true,alg);
         getContentPane().add(win);
         invalidate();
         validate();

@@ -66,10 +66,10 @@ public class Window extends JPanel {
 		return res;
 	}
         
-        public void startThread() {
-            Tuple position1 = new Tuple(width/2,height/2);
+        public void startThread(int hx,int hy,long speed, boolean isAuto,int algorithm) {
+            Tuple position1 = new Tuple(hx,hy);
             // passing this value to the controller
-            ThreadsController threadControllerPlayer1 = new ThreadsController(true,speed,position1,gameFrame,this,numOR,algorithm);
+            ThreadsController threadControllerPlayer1 = new ThreadsController(isAuto,speed,position1,gameFrame,this,numOR,algorithm);
             //Let's start the game now..
             threadControllerPlayer1.start();
         }
