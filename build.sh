@@ -11,5 +11,5 @@
 #javac -classpath bin -d bin src/gui/DataOfSquare.java;
 #javac -classpath bin -d bin src/gui/KeyboardListener.java;
 #javac -classpath bin -d bin src/gui/ThreadsController.java src/ai/AutoPlay.java;
+javac -classpath bin -d bin src/com/ai/*.java src/com/gui/*.java src/com/evaluator/*.java;
 javac -classpath bin -d bin src/com/test/*.java;
-javac -classpath bin -d bin src/com/ai/*.java src/com/gui/*.java;

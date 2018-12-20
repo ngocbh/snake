@@ -42,6 +42,8 @@ public class Utils {
 		int[][] ca = copyArray(state);
 		Tuple[][] trace = new Tuple[h][w];
 		Queue<Tuple> qu = new LinkedList<Tuple>();
+
+		if ( sx == dx && sy == dy ) return new LinkedList<Tuple>();
 		
 		Tuple sour = new Tuple(sx,sy);
 		for (int d = 1; d <= 4; d++) {

@@ -7,13 +7,12 @@ import java.awt.event.KeyListener;
 public class Main {
 	static int width = 20;
 	static int height = 20;
-	static long speed = 20;
+	static long speed;
 
 	//1 : BFS Proposal | 2 : Greedy base on BFS  | 3 : A star Proposal | 4 : Greedy base on A star
-	public static int algorithm = 4;
+	public static int algorithm;
 
 	public static void main(String[] args) {
-		System.out.println("[Usage] : -width [width] -height [height] -speed [speed] -algorithm [algorithm(1-4)]");
 
 		for (int i = 0; i < args.length; i++) 
 			if ( args[i].equals("-width") ) {
@@ -32,10 +31,13 @@ public class Main {
 				algorithm = Integer.parseInt(args[i+1]);
 			} 
 
-		GameFrame gameFrame = new GameFrame(width,height,speed,algorithm);
+		GameFrame gameFrame = new GameFrame(width,height);
 		//Setting up the window settings
 		gameFrame.setTitle("Snake");
-		gameFrame.setSize(30*height,30*(width+1));
+//		gameFrame.setSize(46*height,43*width);
+                gameFrame.pack();
+                gameFrame.setLocationRelativeTo(null);
+                
 		gameFrame.setVisible(true);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

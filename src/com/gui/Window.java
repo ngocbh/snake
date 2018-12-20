@@ -15,13 +15,17 @@ public class Window extends JPanel {
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
 	public int width;
 	public int height;
-	public long speed = 20; 
-
-	public Window(int width,int height,long spd){
-		
+        public long speed;
+        public int algorithm;
+        GameFrame gameFrame;
+        public int numOR;
+	public Window(int width,int height,long spd, int alg, GameFrame gameFr, int num){
+		numOR = num;
 		this.width = width;
 		this.height = height;
-		this.speed = spd;
+                speed = spd;
+                algorithm = alg;
+                gameFrame = gameFr;
 		// Creates the arraylist that'll contain the threads
 		Grid = new ArrayList<ArrayList<DataOfSquare>>();
 		ArrayList<DataOfSquare> data;
@@ -46,6 +50,8 @@ public class Window extends JPanel {
 				this.add(Grid.get(i).get(j));
 			}
 		}
+                
+                
 		
 	}
 
@@ -59,4 +65,12 @@ public class Window extends JPanel {
 				res[i][j] = squares.get(i).get(j).obj;
 		return res;
 	}
+        
+        public void startThread(int hx,int hy,long speed, boolean isAuto,int algorithm) {
+            Tuple position1 = new Tuple(hx,hy);
+            // passing this value to the controller
+            ThreadsController threadControllerPlayer1 = new ThreadsController(isAuto,speed,position1,gameFrame,this,numOR,algorithm);
+            //Let's start the game now..
+            threadControllerPlayer1.start();
+        }
 }

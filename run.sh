@@ -5,4 +5,4 @@ then
     echo "Error???"
     exit
 fi
-java -classpath bin com.gui.Main -width 8 -height 8 -speed 50 -algorithm 4;
+java -classpath bin com.gui.Main -width 15 -height 15 -speed 5 -algorithm 2;
